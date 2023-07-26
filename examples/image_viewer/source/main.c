@@ -14,6 +14,9 @@ int main()
 
     while (!window_manager_has_closed())
     {
+
+        window_manager_clear(0.2f, 0.2f, 0.2f, 1.0f);
+
         window_manager_swap_buffer();
         window_manager_poll();
     }

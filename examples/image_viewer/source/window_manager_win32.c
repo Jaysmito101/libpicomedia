@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <Windows.h>
 
+#define RGBA(r, g, b, a) ((b) | ((g) << 8) | ((r) << 16) | ((a) << 24))
+
 struct graphics_buffer {
     HBITMAP hbm;
     unsigned int* data;
@@ -15,13 +17,13 @@ static const char* g_window_title = "libpicomedia: Image Viewer";
 static HWND g_window_handle = NULL;
 static HINSTANCE g_module_handle = NULL;
 static bool g_has_closed = false;
-static graphics_buffer g_front_buffer = {0}, g_back_buffer = {0};
-const int kTimerID = 101;
+static int g_framebuffer_width = 512, g_framebuffer_height = 512;
+static graphics_buffer g_front_buffer = {0};
+static unsigned int* g_back_buffer = NULL;
 
-graphics_buffer create_graphics_buffer(int wd, int hgt)
+static graphics_buffer create_graphics_buffer(int wd, int hgt)
 {
     HDC hdcScreen = GetDC(NULL);
-
     BITMAPINFO bmi = {0};
     bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
     bmi.bmiHeader.biWidth = wd;
@@ -29,55 +31,72 @@ graphics_buffer create_graphics_buffer(int wd, int hgt)
     bmi.bmiHeader.biPlanes = 1;
     bmi.bmiHeader.biBitCount = 32;
     bmi.bmiHeader.biCompression = BI_RGB;
-
     graphics_buffer gb;
     gb.hbm = CreateDIBSection(hdcScreen, &bmi, DIB_RGB_COLORS, (void**)(&gb.data), NULL, NULL);
-
     ReleaseDC(NULL, hdcScreen);
     return gb;
 }
 
-bool window_manager_swap_buffer(void)
-{
-    //hBMP = (HBITMAP) LoadImage( NULL, "a.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
-}
-
-
-
 LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    PAINTSTRUCT ps;
-    HDC hDC;
-    RECT client;
-    DWORD result;
-
     switch(message) 
     {
         case WM_CREATE:
             RECT r;
             GetClientRect(g_window_handle, &r);
-            SetTimer(hWnd, kTimerID, 1, NULL);
             break;
+        break;
         case WM_PAINT:
-            hDC = BeginPaint(hwnd, &ps);
-            GetClientRect(hwnd, &client);
-            result = StretchDIBits(hDC,
-                                   0, 0,
-                                   client.right, client.bottom,
-                                   0, 0,
-                                   hBMP->bmWidth, hBMP->bmHeight,
-                                   gBMP->bmBits, &m_bi, DIB_RGB_COLORS, SRCCOPY);
-            if(result != g_framebuffer_height) printf("StretchDIBits failed! \n");
+            PAINTSTRUCT ps;
+            HDC hdc = BeginPaint(hwnd, &ps);
+            HDC hdc_bmp = CreateCompatibleDC(hdc);
+            HBITMAP old_bmp = SelectObject(hdc_bmp, g_front_buffer.hbm);
+            BitBlt(hdc, 0, 0, g_framebuffer_width, g_framebuffer_height, hdc_bmp, 0, 0, SRCCOPY);
+            SelectObject(hdc, old_bmp);
+            DeleteDC(hdc_bmp);
             EndPaint(hwnd, &ps);
             break;
         case WM_DESTROY:
             g_has_closed = true;
-            PostQuitMessage(0);       /* send a WM_QUIT to the message queue */
             break;
-        default:                      /* for messages that we don't deal with */
+        case WM_CLOSE:
+            g_has_closed = true;
+            DestroyWindow(hwnd);
+            PostQuitMessage(0);
+            break;
+        default:
             return DefWindowProc(hwnd, message, wParam, lParam);
     }
     return 0;
+}
+
+
+bool window_manager_swap_buffer(void)
+{
+    memcpy(g_front_buffer.data, g_back_buffer, g_framebuffer_width * g_framebuffer_height * sizeof(unsigned int));
+    InvalidateRect(g_window_handle, NULL, FALSE);
+    return true;
+}
+
+
+bool window_manager_set_pixel(float x, float y, float r, float g, float b, float a)
+{
+    int wd = g_framebuffer_width, hgt = g_framebuffer_height;
+    int px = (int)(x * (wd - 1)), py = (int)(y * (hgt - 1));
+    if (px < 0 || px >= wd || py < 0 || py >= hgt) return false;
+    int index = py * wd + px;
+    int pvr = (int)(r * 255.0f), pvg = (int)(g * 255.0f), pvb = (int)(b * 255.0f), pva = (int)(a * 255.0f);
+    g_back_buffer[index] = RGBA(pvr, pvg, pvb, pva);
+    return true;
+}
+
+bool window_manager_clear(float r, float g, float b, float a)
+{
+    int wd = g_framebuffer_width, hgt = g_framebuffer_height;
+    int pvr = (int)(r * 255.0f), pvg = (int)(g * 255.0f), pvb = (int)(b * 255.0f), pva = (int)(a * 255.0f);
+    unsigned int pixel = RGBA(pvr, pvg, pvb, pva);
+    for (int i = 0; i < wd * hgt; ++i) g_back_buffer[i] = pixel;
+    return true;
 }
 
 bool window_manager_init(void)
@@ -120,6 +139,10 @@ bool window_manager_init(void)
 
     g_has_closed = false;
 
+    g_front_buffer = create_graphics_buffer(g_framebuffer_width, g_framebuffer_height);
+    g_back_buffer = malloc(g_framebuffer_width * g_framebuffer_height * sizeof(unsigned int));
+    if (!g_back_buffer) return false;
+
     return true;
 }
 
@@ -136,9 +159,8 @@ bool window_manager_poll(void)
 
 bool window_manager_shutdown(void)
 {
-    //DestroyWindow(hwnd);
-    if (g_framebuffer) free(g_framebuffer);
-    if (g_backbuffer) free(g_backbuffer);
+    DeleteObject(g_front_buffer.hbm);
+    free(g_back_buffer);
     return true;
 }
 
