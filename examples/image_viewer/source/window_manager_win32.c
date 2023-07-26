@@ -1,7 +1,9 @@
 
 #include "window_manager.h"
 
+#include <stdlib.h>
 #include <stdio.h>
+
 #include <Windows.h>
 
 #define RGBA(r, g, b, a) ((b) | ((g) << 8) | ((r) << 16) | ((a) << 24))
@@ -118,7 +120,10 @@ bool window_manager_init(void)
     wincl.hbrBackground = (HBRUSH)COLOR_BACKGROUND;
 
     if(!RegisterClassEx(&wincl))
+    {
+        printf("Failed to register window class! \n");
         return false;
+    }
 
     g_window_handle = CreateWindowEx(
         0,                   /* Extended possibilites for variation */
@@ -141,7 +146,11 @@ bool window_manager_init(void)
 
     g_front_buffer = create_graphics_buffer(g_framebuffer_width, g_framebuffer_height);
     g_back_buffer = malloc(g_framebuffer_width * g_framebuffer_height * sizeof(unsigned int));
-    if (!g_back_buffer) return false;
+    if (!g_back_buffer) 
+    {
+        printf("Failed to allocate back buffer! \n");
+        return false;
+    }
 
     return true;
 }
