@@ -30,7 +30,9 @@ int main(int argc, char** argv, char** envp)
     PM_LogInfo("ReadByte : %c", PM_StreamReadByte(&testStream));
     //PM_LogInfo("Writing Byte : %zu", PM_StreamWriteByte(&testStream, 49));
 
-
+    PM_LogInfo("Testing Common/Stream/PM_StreamDestroy");
+    PM_StreamDestroy(&testStream);
+ 
     PM_Byte buffer[1024] = {"Hello Wrold"};
 
     PM_LogInfo("Testing Common/Stream/PM_StreamInitFromMemory");

@@ -117,7 +117,7 @@ PM_Size PM_StreamRead(PM_Stream* stream, PM_Byte* buffer, PM_Size size)
     }
 }
 
-PM_Size PM_StreamWrite(PM_Stream* stream, PM_Byte* buffer, PM_Size size)
+PM_Size PM_StreamWrite(PM_Stream* stream, const PM_Byte* buffer, PM_Size size)
 {
     PM_Assert(stream != NULL);
     PM_Assert(buffer != NULL);

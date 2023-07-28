@@ -12,6 +12,14 @@ option(BUILD_STATIC_LIBS "Build static libraries" OFF)
 option(BUILD_TESTS "Build tests" ON)
 option(BUILD_EXAMPLES "Build examples" ON)
 
+if (BUILD_TESTS)
+    message(STATUS "Enabling CXX for tests")
+    enable_language(CXX)
+    
+    set(CMAKE_CXX_STANDARD 11)
+    set(CMAKE_CXX_STANDARD_REUIRED True)
+endif()
+
 include_directories(./include)
 file(GLOB_RECURSE SOURCES "./source/**.c")
 
