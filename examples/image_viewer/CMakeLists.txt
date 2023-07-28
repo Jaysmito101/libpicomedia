@@ -16,6 +16,14 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     option(USE_X11 "Use X11" ON)
     option(USE_WAYLAND "Use Wayland" OFF)
     
+    if (NOT USE_X11 AND NOT USE_WAYLAND)
+        message(FATAL_ERROR "You must select at least one window manager")
+    endif()
+
+    if (USE_X11 AND USE_WAYLAND)
+        message(FATAL_ERROR "You can't select both window managers")
+    endif()
+
     if (USE_X11)
         add_definitions(-DUSE_X11)
         find_package(X11 REQUIRED)

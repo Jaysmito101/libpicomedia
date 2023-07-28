@@ -2,10 +2,15 @@
 
 #include <stdio.h>
 
+#include "libpicomedia/libpicomedia.h"
+
 
 int main()
 {
-    printf("Hello World! [Example] \n");
+    PM_Stream stream = {0};
+    PM_StreamInitFromFile(&stream, "C:\\Users\\jaysm\\Desktop\\test.ppm", PICOMEDIA_STREAM_FLAG_READ);
+
+    return 0;
 
     if(!window_manager_init())
     {
@@ -15,7 +20,6 @@ int main()
 
     while (!window_manager_has_closed())
     {
-
         window_manager_clear(0.2f, 0.2f, 0.2f, 1.0f);
 
         for (int y = 200; y < 300; y++) for (int x = 200; x < 300; x++) window_manager_set_pixel(x/512.0f, y/512.0f, 1.0f, 0.0f, 0.0f, 1.0f);
@@ -29,6 +33,5 @@ int main()
         printf("Failed to shutdown window manager! \n");
         return 1;
     }
-
     return 0;
 }
