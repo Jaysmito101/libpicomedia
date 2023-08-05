@@ -21,7 +21,20 @@ if (BUILD_TESTS)
 endif()
 
 include_directories(./include)
-file(GLOB_RECURSE SOURCES "./source/**.c")
+
+set(SOURCES
+    # Common
+    source/common/common_stream.c
+    source/common/string_utils.c
+    # Image
+    source/image/image_base.c
+    # Image -> PPM
+    source/image/ppm/ppm_base.c
+    source/image/ppm/ppm_detect.c    
+    source/image/ppm/ppm_read.c    
+    source/image/ppm/ppm_write.c    
+    )
+
 
 # this is the "object library" target: compiles the sources only once
 add_library(picomedia OBJECT ${SOURCES})

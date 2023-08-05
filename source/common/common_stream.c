@@ -1,5 +1,7 @@
 #include "libpicomedia/common/stream.h"
 
+// -----------------------------------------------------------------------------------------------
+
 void PM_StreamInit(PM_Stream* stream)
 {
     PM_Assert(stream != NULL);
@@ -13,6 +15,8 @@ void PM_StreamInit(PM_Stream* stream)
     stream->isInitialized = false;
     stream->isSourceOwner = false;
 }
+
+// -----------------------------------------------------------------------------------------------
 
 PM_Bool PM_StreamInitFromFileDescriptor(PM_Stream* stream, FILE* file, PM_UInt8 flags, PM_Bool isSourceOwner)
 {
@@ -30,22 +34,28 @@ PM_Bool PM_StreamInitFromFileDescriptor(PM_Stream* stream, FILE* file, PM_UInt8 
     // get size of file
     fseek(file, 0, SEEK_END); // seek to end of file 
     stream->sourceSize = ftell(file); // get current file pointer
-    fseek(file, 0, SEEK_SET); // seek back to beginning of file
+    // fseek(file, 0, SEEK_SET); // seek back to beginning of file
+    PM_StreamSetCursorPosition(stream, 0);
+
     
     return true;
 }
+
+// -----------------------------------------------------------------------------------------------
 
 PM_Bool PM_StreamInitFromFile(PM_Stream* stream, const char* fileName, PM_UInt8 flags)
 {
     PM_Assert(stream != NULL);
     
-    const PM_Byte* fileOpenMode = (flags & PICOMEDIA_STREAM_FLAG_WRITE) ? (flags & PICOMEDIA_STREAM_FLAG_READ ? "r+" : "w+") : (flags & PICOMEDIA_STREAM_FLAG_WRITE ? "a+" : "r");
+    const PM_Byte* fileOpenMode = (flags & PICOMEDIA_STREAM_FLAG_WRITE) ? (flags & PICOMEDIA_STREAM_FLAG_READ ? "rb+" : "wb+") : (flags & PICOMEDIA_STREAM_FLAG_WRITE ? "a+" : "rb");
 
     FILE* file = fopen(fileName, fileOpenMode);
     PM_Assert(file != NULL);
     
     return PM_StreamInitFromFileDescriptor(stream, file, flags, true);
 }
+
+// -----------------------------------------------------------------------------------------------
 
 PM_Bool PM_StreamInitFromMemory(PM_Stream* stream, PM_Byte* memory, PM_Size size, PM_UInt8 flags, PM_Bool isSourceOwner)
 {
@@ -63,6 +73,8 @@ PM_Bool PM_StreamInitFromMemory(PM_Stream* stream, PM_Byte* memory, PM_Size size
     return true;
 }
 
+// -----------------------------------------------------------------------------------------------
+
 PM_Bool PM_StreamInitFromNetwork(PM_Stream* stream, const char* address, PM_UInt8 flags)
 {
     (void)stream; (void)address; (void)flags;
@@ -71,6 +83,8 @@ PM_Bool PM_StreamInitFromNetwork(PM_Stream* stream, const char* address, PM_UInt
 
     return false;
 }
+
+// -----------------------------------------------------------------------------------------------
 
 void PM_StreamDestroy(PM_Stream* stream)
 {
@@ -88,6 +102,8 @@ void PM_StreamDestroy(PM_Stream* stream)
 
     PM_StreamInit(stream);
 }
+
+// -----------------------------------------------------------------------------------------------
 
 PM_Size PM_StreamRead(PM_Stream* stream, PM_Byte* buffer, PM_Size size)
 {
@@ -117,12 +133,14 @@ PM_Size PM_StreamRead(PM_Stream* stream, PM_Byte* buffer, PM_Size size)
     }
 }
 
+// -----------------------------------------------------------------------------------------------
+
 PM_Size PM_StreamWrite(PM_Stream* stream, const PM_Byte* buffer, PM_Size size)
 {
     PM_Assert(stream != NULL);
     PM_Assert(buffer != NULL);
-    PM_Assert((stream->flags & PICOMEDIA_STREAM_FLAG_WRITE || stream->flags & PICOMEDIA_STREAM_FLAG_APPEND) && stream->flags & PICOMEDIA_STREAM_FLAG_READ);
-    PM_Assert(stream->cursorPosition + size <= stream->sourceSize);
+    PM_Assert((stream->flags & PICOMEDIA_STREAM_FLAG_WRITE || stream->flags & PICOMEDIA_STREAM_FLAG_APPEND) && !(stream->flags & PICOMEDIA_STREAM_FLAG_READ));
+    PM_Assert((stream->cursorPosition + size <= stream->sourceSize) || (stream->sourceType == PICOMEDIA_STREAM_SOURCE_TYPE_FILE));
 
     if (stream->sourceType == PICOMEDIA_STREAM_SOURCE_TYPE_FILE)
     {
@@ -143,6 +161,8 @@ PM_Size PM_StreamWrite(PM_Stream* stream, const PM_Byte* buffer, PM_Size size)
     }
 }
 
+// -----------------------------------------------------------------------------------------------
+
 PM_Size PM_StreamPeek(PM_Stream* stream, PM_Byte* buffer, PM_Size size)
 {
     PM_Assert(stream != NULL);
@@ -158,6 +178,8 @@ PM_Size PM_StreamPeek(PM_Stream* stream, PM_Byte* buffer, PM_Size size)
     return bytesRead;
 }
 
+// -----------------------------------------------------------------------------------------------
+
 PM_Size PM_StreamGetCursorPosition(PM_Stream* stream)
 {
     PM_Assert(stream != NULL);
@@ -165,6 +187,7 @@ PM_Size PM_StreamGetCursorPosition(PM_Stream* stream)
     return stream->cursorPosition;
 }
 
+// -----------------------------------------------------------------------------------------------
 
 PM_Size PM_StreamSetCursorPosition(PM_Stream* stream, PM_Size position)
 {
@@ -182,6 +205,8 @@ PM_Size PM_StreamSetCursorPosition(PM_Stream* stream, PM_Size position)
     return stream->cursorPosition;
 }
 
+// -----------------------------------------------------------------------------------------------
+
 PM_Size PM_StreamGetSourceSize(PM_Stream* stream)
 {
     PM_Assert(stream != NULL);
@@ -189,3 +214,4 @@ PM_Size PM_StreamGetSourceSize(PM_Stream* stream)
     return stream->sourceSize;
 }
 
+// -----------------------------------------------------------------------------------------------

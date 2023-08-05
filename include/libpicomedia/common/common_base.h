@@ -1,5 +1,5 @@
-#ifndef LIBPICOMEDIA_COMMON_BASE_H
-#define LIBPICOMEDIA_COMMON_BASE_H
+#ifndef PICOMEDIA_COMMON_BASE_H
+#define PICOMEDIA_COMMON_BASE_H
 
 // Standard Library Includes
 #include <stdint.h>
@@ -53,6 +53,12 @@ typedef bool     PM_Bool;
 #define PM_New(type) (type*)PM_Malloc(sizeof(type))
 #define PM_NewN(type, size) (type*)PM_Malloc(sizeof(type) * size)
 #define PM_Delete(ptr) PM_Free(ptr)
+#define PM_Memcpy(dest, src, size) memcpy(dest, src, size)
+#define PM_Memset(ptr, value, size) memset(ptr, value, size)
+#define PM_Malloc(size) malloc(size)
+
+#define PM_TRUE true
+#define PM_FALSE false
 
 #if defined(PM_PLATFORM_WINDOWS)
     #define PM_DebugBreak() __debugbreak()
@@ -93,4 +99,4 @@ typedef bool     PM_Bool;
     #define PICOMEDIA_API
 #endif // PICOMEDIA_SHARED
 
-#endif // LIBPICOMEDIA_COMMON_BASE_H
+#endif // PICOMEDIA_COMMON_BASE_H

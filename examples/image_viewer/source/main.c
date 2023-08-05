@@ -7,10 +7,14 @@
 
 int main()
 {
-    PM_Stream stream = {0};
-    PM_StreamInitFromFile(&stream, "C:\\Users\\jaysm\\Desktop\\test.ppm", PICOMEDIA_STREAM_FLAG_READ);
+    PM_LogInfo("Attempting to read image from file: %s", "test.ppm");
 
-    return 0;
+    PM_Image image = {0};
+    if(!PM_ImagePPMReadFromFile("test.ppm", &image))
+    {
+        printf("Failed to read image from file: %s \n", "test.ppm");
+        return 1;
+    }
 
     if(!window_manager_init())
     {
@@ -18,11 +22,20 @@ int main()
         return 1;
     }
 
+    PM_ImagePPMWriteToFile(PICOMEDIA_PPM_FORMAT_P6, "testp6.ppm", &image);
+    PM_ImagePPMWriteToFile(PICOMEDIA_PPM_FORMAT_P3, "testp3.ppm", &image);
+
     while (!window_manager_has_closed())
     {
         window_manager_clear(0.2f, 0.2f, 0.2f, 1.0f);
 
-        for (int y = 200; y < 300; y++) for (int x = 200; x < 300; x++) window_manager_set_pixel(x/512.0f, y/512.0f, 1.0f, 0.0f, 0.0f, 1.0f);
+        for (int  i = 0; i < (int)image.height ; i++)
+        {
+            for (int j = 0; j < (int)image.width; j++)
+            {
+                window_manager_set_pixel(j / (float)image.height, i / (float)image.width, (float)PM_ImageGetPixelValue(&image, j, i, 0, NULL), (float)PM_ImageGetPixelValue(&image, j, i, 1, NULL), (float)PM_ImageGetPixelValue(&image, j, i, 2, NULL), 1.0f);
+            }
+        }
 
         window_manager_swap_buffer();
         window_manager_poll();
@@ -33,5 +46,8 @@ int main()
         printf("Failed to shutdown window manager! \n");
         return 1;
     }
+
+    PM_ImageDestroy(&image);
+
     return 0;
 }

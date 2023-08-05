@@ -1,12 +1,15 @@
-#include "libpicomedia/image/ppm/ppm_base.h"
+#include "libpicomedia/image/ppm/ppm.h"
 
-void PM_ImagePPMContextInit(PM_PPMContext* context)
+// -----------------------------------------------------------------------------------------------
+
+const PM_Char* PM_ImagePPMFormatToString(PM_UInt32 ppmFormat)
 {
-    context->ppmFormat = PICOMEDIA_PPM_FORMAT_UNKNOWN;
-    context->maxColorValue = 255;
+    switch (ppmFormat)
+    {
+        case PICOMEDIA_PPM_FORMAT_P3: return "P3";
+        case PICOMEDIA_PPM_FORMAT_P6: return "P6";
+        default:                      return "UNKNOWN";
+    }
 }
 
-void PM_ImagePPMContextDestroy(PM_PPMContext* ppmContext)
-{
-    PM_ImagePPMContextInit(ppmContext);
-}
+// -----------------------------------------------------------------------------------------------
