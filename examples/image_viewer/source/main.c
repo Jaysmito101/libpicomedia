@@ -10,9 +10,9 @@ int main()
     PM_LogInfo("Attempting to read image from file: %s", "test.ppm");
 
     PM_Image image = {0};
-    if(!PM_ImagePPMReadFromFile("test.ppm", &image))
+    if(!PM_ImagePPMReadFromFile("testp3.ppm", &image))
     {
-        printf("Failed to read image from file: %s \n", "test.ppm");
+        PM_LogInfo("Failed to read image from file: %s \n", "test.ppm");
         return 1;
     }
 

@@ -86,6 +86,11 @@ namespace picomedia
             return m_Stream;
         }
 
+        inline PM_Stream* GetInternalHandlePtr()
+        {
+            return &m_Stream;
+        }
+
         template<typename T>
         inline T Read()
         {
@@ -111,5 +116,21 @@ namespace picomedia
     private:
         PM_Stream m_Stream = {0};
     };
+
+
+    namespace utils 
+    {
+
+        inline bool CharIsWhiteSpace(char ch)
+        {
+            return PM_CharIsWhiteSpace(ch) != PM_FALSE;
+        }
+
+        inline PM_Int64 ReadASCIIIntegerFromStream(Stream& stream)
+        {
+            return PM_ReadASCIIIntegerFromStream(stream.GetInternalHandlePtr());
+        }
+
+    }
 
 }

@@ -9,6 +9,10 @@ static PM_Bool PM__ImagePPMSkipASCII(PM_Stream* stream)
     while (PM_TRUE)
     {
         PM_Char ch = PM_StreamReadInt8(stream);
+        if (ch == 0) // EOF
+        {
+            return PM_FALSE;
+        }
         if (!isComment)
         {
             if (ch == '#')
@@ -153,10 +157,68 @@ PM_Bool PM_ImagePPMReadP6(PM_Stream* stream, PM_Image* image)
 
 PM_Bool PM_ImagePPMReadP3(PM_Stream* stream, PM_Image* image)
 {
-    (void)image; (void)stream;
-    // TODO: Implement this function
-    PM_LogError("PM_ImagePPMReadP3 is not implemented! \n");
-    return PM_FALSE;
+    PM_UInt32 maxColorValue = 0;
+
+    PM_StreamSetCursorPosition(stream, 0);
+
+    if ( ! PM__ImagePPMReadHeader(stream, image, '3', &maxColorValue) )
+    {
+        PM_LogError("Failed to read PPM header! \n");
+        return PM_FALSE;
+    }
+
+    // Allocate memory for the image
+    if (! PM_ImageAllocate(image, image->width, image->height, image->channelFormat, image->dataType, 3))
+    {
+        PM_LogError("Failed to allocate memory for the image! \n");
+        return PM_FALSE;
+    }
+
+    // Read the image
+    PM_Size bytesPerChannel = image->bitsPerChannel / 8;
+    PM_Size bytesPerPixel = bytesPerChannel * image->numChannels;
+    PM_Byte* data = (PM_Byte*)image->data;
+
+    for (PM_UInt32 y = 0; y < image->height; y++)
+    {
+        for (PM_UInt32 x = 0 ; x < image->width ; x++)
+        {
+            for (PM_UInt32 c = 0; c < image->numChannels; c++)
+            {
+                PM_Size offset = image->width * y * bytesPerPixel + x * bytesPerPixel + c * bytesPerChannel;
+
+                if (!PM__ImagePPMSkipASCII(stream))
+                {
+                    PM_LogError("Failed to read the image data! \n");
+                    return PM_FALSE;
+                }
+
+                PM_Int64 value = PM_ReadASCIIIntegerFromStream(stream);
+
+                if (value > maxColorValue)
+                {
+                    PM_LogError("Invalid color value! \n");
+                    return PM_FALSE;
+                }
+
+                if (image->dataType == PICOIMEDIA_IMAGE_DATA_TYPE_UINT8)
+                {
+                    *((PM_UInt8*)data + offset) = (PM_UInt8)value;
+                }
+                else if (image->dataType == PICOIMEDIA_IMAGE_DATA_TYPE_UINT16)
+                {
+                    *((PM_UInt16*)data + offset) = (PM_UInt16)value;
+                }
+                else 
+                {
+                    PM_LogError("Unsupported data type! \n");
+                    return PM_FALSE;
+                }
+            }
+        }
+    }
+
+    return PM_TRUE;
 }
 
 // -----------------------------------------------------------------------------------------------
