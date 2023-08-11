@@ -5,6 +5,7 @@
 
 // Individual image formats
 #include "libpicomedia/image/ppm/ppm.h"
+#include "libpicomedia/image/bmp/bmp.h"
 
 
 #endif // PICOMEDIA_IMAGE_H

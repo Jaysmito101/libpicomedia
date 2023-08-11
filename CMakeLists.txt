@@ -33,6 +33,11 @@ set(SOURCES
     source/image/ppm/ppm_detect.c    
     source/image/ppm/ppm_read.c    
     source/image/ppm/ppm_write.c    
+    # Image -> BMP
+    source/image/bmp/bmp_base.c
+    source/image/bmp/bmp_detect.c
+    source/image/bmp/bmp_read.c
+    source/image/bmp/bmp_write.c
     )
 
 

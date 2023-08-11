@@ -7,14 +7,22 @@
 
 int main()
 {
-    PM_LogInfo("Attempting to read image from file: %s", "test.ppm");
+    PM_LogInfo("Attempting to read image from file: %s", "test.bmp");
+
+    // PM_Image image = {0};
+    // if(!PM_ImagePPMReadFromFile("test.ppm", &image))
+    // {
+    //     PM_LogInfo("Failed to read image from file: %s \n", "test.ppm");
+    //     return 1;
+    // }
 
     PM_Image image = {0};
-    if(!PM_ImagePPMReadFromFile("test.ppm", &image))
+    if (!PM_ImageBMPReadFromFile("test.bmp", &image))
     {
-        PM_LogInfo("Failed to read image from file: %s \n", "test.ppm");
+        PM_LogInfo("Failed to read image from file: %s \n", "test.bmp");
         return 1;
     }
+
 
     if(!window_manager_init())
     {
@@ -22,18 +30,20 @@ int main()
         return 1;
     }
 
-    PM_ImagePPMWriteToFile(PICOMEDIA_PPM_FORMAT_P6, "testp6.ppm", &image);
-    PM_ImagePPMWriteToFile(PICOMEDIA_PPM_FORMAT_P3, "testp3.ppm", &image);
+    //PM_ImagePPMWriteToFile(PICOMEDIA_PPM_FORMAT_P6, "testp6.ppm", &image);
+    //PM_ImagePPMWriteToFile(PICOMEDIA_PPM_FORMAT_P3, "testp3.ppm", &image);
 
     while (!window_manager_has_closed())
     {
         window_manager_clear(0.2f, 0.2f, 0.2f, 1.0f);
 
-        for (int  i = 0; i < (int)image.height ; i++)
+        for (int  i = 0; i < 512 ; i++)
         {
-            for (int j = 0; j < (int)image.width; j++)
+            for (int j = 0; j < 512; j++)
             {
-                window_manager_set_pixel(j / (float)image.height, i / (float)image.width, (float)PM_ImageGetPixelValue(&image, j, i, 0, NULL), (float)PM_ImageGetPixelValue(&image, j, i, 1, NULL), (float)PM_ImageGetPixelValue(&image, j, i, 2, NULL), 1.0f);
+                int j2 = (int)((j / 512.0f) * image.width);
+                int i2 = (int)((i / 512.0f) * image.height);
+                window_manager_set_pixel(j / 512.0f, i / 512.0f, (float)PM_ImageGetPixelValue(&image, j2, i2, 0, NULL), (float)PM_ImageGetPixelValue(&image, j2, i2, 1, NULL), (float)PM_ImageGetPixelValue(&image, j2, i2, 2, NULL), 1.0f);
             }
         }
 

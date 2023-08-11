@@ -275,7 +275,7 @@ PM_Bool PM_ImagePPMReadFromMemory(PM_Byte* data, PM_Size dataSize, PM_Image* ima
 
 // -----------------------------------------------------------------------------------------------
 
-PM_Bool PM_ImagePPMReadFromFile(const char* filePath, PM_Image* image)
+PM_Bool PM_ImagePPMReadFromFile(const PM_Byte* filePath, PM_Image* image)
 {
     PM_Assert(filePath != NULL);
     PM_Assert(image != NULL);
