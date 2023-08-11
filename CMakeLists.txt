@@ -25,7 +25,7 @@ include_directories(./include)
 set(SOURCES
     # Common
     source/common/common_stream.c
-    source/common/string_utils.c
+    source/common/common_utils.c
     # Image
     source/image/image_base.c
     # Image -> PPM

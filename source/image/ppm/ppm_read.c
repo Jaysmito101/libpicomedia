@@ -91,6 +91,9 @@ static PM_Bool PM__ImagePPMReadHeader(PM_Stream* stream, PM_Image* image, PM_UIn
 
 PM_Bool PM_ImagePPMReadP6(PM_Stream* stream, PM_Image* image)
 {
+    PM_Assert(stream != NULL);
+    PM_Assert(image != NULL);
+
     PM_UInt32 maxColorValue = 0;
 
     PM_StreamSetCursorPosition(stream, 0);
@@ -157,6 +160,9 @@ PM_Bool PM_ImagePPMReadP6(PM_Stream* stream, PM_Image* image)
 
 PM_Bool PM_ImagePPMReadP3(PM_Stream* stream, PM_Image* image)
 {
+    PM_Assert(stream != NULL);
+    PM_Assert(image != NULL);
+
     PM_UInt32 maxColorValue = 0;
 
     PM_StreamSetCursorPosition(stream, 0);
@@ -225,6 +231,9 @@ PM_Bool PM_ImagePPMReadP3(PM_Stream* stream, PM_Image* image)
 
 PM_Bool PICOMEDIA_API PM_ImagePPMRead(PM_Stream* stream, PM_Image* image)
 {
+    PM_Assert(stream != NULL);
+    PM_Assert(image != NULL);
+
     PM_UInt32 ppmType = PM_ImagePPMDetect(stream);
 
     if (ppmType == PICOMEDIA_PPM_FORMAT_P3)
@@ -246,6 +255,10 @@ PM_Bool PICOMEDIA_API PM_ImagePPMRead(PM_Stream* stream, PM_Image* image)
 
 PM_Bool PM_ImagePPMReadFromMemory(PM_Byte* data, PM_Size dataSize, PM_Image* image)
 {
+    PM_Assert(data != NULL);
+    PM_Assert(image != NULL);
+    PM_Assert(dataSize > 0);
+
     PM_Stream stream = {0};
     if ( ! PM_StreamInitFromMemory(&stream, data, dataSize, PICOMEDIA_STREAM_FLAG_READ, false) ) 
     {
@@ -264,6 +277,9 @@ PM_Bool PM_ImagePPMReadFromMemory(PM_Byte* data, PM_Size dataSize, PM_Image* ima
 
 PM_Bool PM_ImagePPMReadFromFile(const char* filePath, PM_Image* image)
 {
+    PM_Assert(filePath != NULL);
+    PM_Assert(image != NULL);
+    
     PM_Stream stream = {0};
     if ( ! PM_StreamInitFromFile(&stream, filePath, PICOMEDIA_STREAM_FLAG_READ) ) 
     {

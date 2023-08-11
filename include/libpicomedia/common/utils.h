@@ -22,4 +22,12 @@ PM_Bool PICOMEDIA_API PM_CharIsWhiteSpace(PM_Char ch);
 PM_Int64 PICOMEDIA_API PM_ReadASCIIIntegerFromStream(PM_Stream* stream);
 
 
+/**
+ * @brief Determines if the current system is big-endian or little-endian.
+ * 
+ * @return PM_Bool Returns PM_TRUE if the system is big-endian, PM_FALSE if it is little-endian.
+ */
+PM_Bool PICOMEDIA_API PM_IsBigEndian();
+
+
 #endif // PICOMEDIA_COMMON_STRING_UTILS_H

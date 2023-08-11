@@ -1,4 +1,23 @@
 #include "libpicomedia/common/stream.h"
+#include "libpicomedia/common/utils.h"
+
+// -----------------------------------------------------------------------------------------------
+
+PM_Bool PM__StreamApplyEndianess(PM_Stream* stream, PM_Byte* data, PM_Size size)
+{
+    if (stream->requireReverse && size <= stream->sizeForReverse)
+    {
+        PM_Size i;
+        for (i = 0; i < size / 2; ++i)
+        {
+            PM_Byte tmp = data[i];
+            data[i] = data[size - i - 1];
+            data[size - i - 1] = tmp;
+        }
+        return PM_TRUE;
+    }
+    return PM_FALSE;
+}
 
 // -----------------------------------------------------------------------------------------------
 
@@ -14,6 +33,9 @@ void PM_StreamInit(PM_Stream* stream)
     stream->sourceType = PICOMEDIA_STREAM_SOURCE_TYPE_UNKNOWN;
     stream->isInitialized = false;
     stream->isSourceOwner = false;
+    // by default it works with little endian
+    stream->requireReverse = PM_IsBigEndian();
+    stream->sizeForReverse = sizeof(PM_UInt64);
 }
 
 // -----------------------------------------------------------------------------------------------
@@ -115,6 +137,7 @@ PM_Size PM_StreamRead(PM_Stream* stream, PM_Byte* buffer, PM_Size size)
     {
         PM_Size read = fread(buffer, 1, size, stream->fileSource);
         stream->cursorPosition += read;
+        PM__StreamApplyEndianess(stream, buffer, read);
         return read;
     }
     else if (stream->sourceType == PICOMEDIA_STREAM_SOURCE_TYPE_MEMORY)
@@ -124,6 +147,7 @@ PM_Size PM_StreamRead(PM_Stream* stream, PM_Byte* buffer, PM_Size size)
             bytesToRead = stream->sourceSize - stream->cursorPosition;
         memcpy(buffer, stream->memorySource + stream->cursorPosition, bytesToRead);
         stream->cursorPosition += bytesToRead;
+        PM__StreamApplyEndianess(stream, buffer, bytesToRead);
         return bytesToRead;
     }
     else
@@ -212,6 +236,15 @@ PM_Size PM_StreamGetSourceSize(PM_Stream* stream)
     PM_Assert(stream != NULL);
 
     return stream->sourceSize;
+}
+
+// -----------------------------------------------------------------------------------------------
+
+void PICOMEDIA_API PM_StreamSetRequireReverse(PM_Stream* stream, PM_Bool requireReverse)
+{
+    PM_Assert(stream != NULL);
+
+    stream->requireReverse = requireReverse;
 }
 
 // -----------------------------------------------------------------------------------------------

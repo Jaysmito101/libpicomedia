@@ -29,11 +29,12 @@ struct PM_Stream
     PM_UInt8 flags;         /**< Flags indicating the stream's read/write/append permissions. */
     PM_Bool isInitialized;  /**< Flag indicating whether the stream has been initialized. */
     PM_Bool isSourceOwner;  /**< Flag indicating whether the stream is the owner of its source data. */
+    PM_Bool requireReverse; /**< Flag indicating whether the stream's data should be reversed when reading if target endianess is different from host endianess. */
+    PM_Size sizeForReverse; /**< Max size of data that will be reversed when reading if target endianess is different from host endianess. */
 };
 
 /** Typedef for PM_Stream struct. */
 typedef struct PM_Stream PM_Stream;
-
 
 
 /**
@@ -188,6 +189,13 @@ PM_Size PICOMEDIA_API PM_StreamSetCursorPosition(PM_Stream* stream, PM_Size posi
 */
 PM_Size PICOMEDIA_API PM_StreamGetSourceSize(PM_Stream* stream);
 
+/**
+ * @brief Sets whether the stream requires reverse playback support.
+ * 
+ * @param stream The stream to set the reverse playback requirement for.
+ * @param requireReverse Whether the stream requires reverse playback support.
+ */
+void PICOMEDIA_API PM_StreamSetRequireReverse(PM_Stream* stream, PM_Bool requireReverse);
 
 /**
  * @brief Macro that adds read, write, and peek functions for a given type to a PM_Stream struct.

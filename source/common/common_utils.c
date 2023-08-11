@@ -1,4 +1,4 @@
-#include "libpicomedia/common/string_utils.h"
+#include "libpicomedia/common/utils.h"
 
 static const PM_Char PM_WHITESPACE_CHARACTERS[] = {' ', '\t', '\n', '\r', '\f', '\v', '\0'};
 static const PM_Size PM_WHITESPACE_CHARACTERS_COUNT = 7;
@@ -34,6 +34,18 @@ PM_Int64 PM_ReadASCIIIntegerFromStream(PM_Stream* streamObject)
     }
 
     return (PM_Int64)atoll(integerBuffer);
+}
+
+// -----------------------------------------------------------------------------------------------
+
+PM_Bool PM_IsBigEndian()
+{
+    union {
+        uint32_t i;
+        char c[4];
+    } e = { 0x01000000 };
+
+    return e.c[0];
 }
 
 // -----------------------------------------------------------------------------------------------

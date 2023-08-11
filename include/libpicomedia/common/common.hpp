@@ -121,14 +121,19 @@ namespace picomedia
     namespace utils 
     {
 
-        inline bool CharIsWhiteSpace(char ch)
+        inline PM_Bool CharIsWhiteSpace(char ch)
         {
-            return PM_CharIsWhiteSpace(ch) != PM_FALSE;
+            return PM_CharIsWhiteSpace(ch);
         }
 
         inline PM_Int64 ReadASCIIIntegerFromStream(Stream& stream)
         {
             return PM_ReadASCIIIntegerFromStream(stream.GetInternalHandlePtr());
+        }
+
+        inline PM_Bool IsBigEndian() 
+        {
+            return PM_IsBigEndian();
         }
 
     }

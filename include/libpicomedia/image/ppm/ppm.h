@@ -109,7 +109,7 @@ PM_Bool PICOMEDIA_API PM_ImagePPMReadFromFile(const char* filePath, PM_Image* im
  * @param image The image to write to the file.
  * @return PM_Bool Returns PM_TRUE if the image was successfully written to the stream, PM_FALSE otherwise.
  */
-PM_Bool PICOMEDIA_API PM_ImagePPMWriteP6(PM_Stream* stream, PM_Image* image);
+PM_Bool PICOMEDIA_API PM_ImagePPMWriteP6(PM_Stream* stream, const PM_Image* image);
 
 /**
  * @brief Writes a PPM image file in P3 format to a stream.
@@ -118,7 +118,7 @@ PM_Bool PICOMEDIA_API PM_ImagePPMWriteP6(PM_Stream* stream, PM_Image* image);
  * @param image The image to write to the file.
  * @return PM_Bool Returns PM_TRUE if the image was successfully written to the stream, PM_FALSE otherwise.
  */
-PM_Bool PICOMEDIA_API PM_ImagePPMWriteP3(PM_Stream* stream, PM_Image* image);
+PM_Bool PICOMEDIA_API PM_ImagePPMWriteP3(PM_Stream* stream, const PM_Image* image);
 
 /**
  * @brief Writes a PPM image file to a stream.
@@ -128,7 +128,7 @@ PM_Bool PICOMEDIA_API PM_ImagePPMWriteP3(PM_Stream* stream, PM_Image* image);
  * @param image The image to write to the file.
  * @return PM_Bool Returns PM_TRUE if the image was successfully written to the stream, PM_FALSE otherwise.
  */
-PM_Bool PICOMEDIA_API PM_ImagePPMWrite(PM_UInt32 ppmFormat, PM_Stream* stream, PM_Image* image);
+PM_Bool PICOMEDIA_API PM_ImagePPMWrite(PM_UInt32 ppmFormat, PM_Stream* stream, const PM_Image* image);
 
 /**
  * @brief Writes a PPM image file to a file on disk.
@@ -138,7 +138,7 @@ PM_Bool PICOMEDIA_API PM_ImagePPMWrite(PM_UInt32 ppmFormat, PM_Stream* stream, P
  * @param image The image to write to the file.
  * @return PM_Bool Returns PM_TRUE if the image was successfully written to the file, PM_FALSE otherwise.
  */
-PM_Bool PICOMEDIA_API PM_ImagePPMWriteToFile(PM_UInt32 ppmFormat, const char* filePath, PM_Image* image);
+PM_Bool PICOMEDIA_API PM_ImagePPMWriteToFile(PM_UInt32 ppmFormat, const char* filePath, const PM_Image* image);
 
 /**
  * @brief Writes a PPM image file to a memory buffer.
@@ -150,6 +150,6 @@ PM_Bool PICOMEDIA_API PM_ImagePPMWriteToFile(PM_UInt32 ppmFormat, const char* fi
  * @param maxDataSize The maximum size of the memory buffer.
  * @return PM_Bool Returns PM_TRUE if the image was successfully written to the memory buffer, PM_FALSE otherwise.
  */
-PM_Bool PICOMEDIA_API PM_ImagePPMWriteToMemory(PM_UInt32 ppmFormat, PM_Image* image, PM_Byte* data, PM_Size* dataSize, PM_Size maxDataSize);
+PM_Bool PICOMEDIA_API PM_ImagePPMWriteToMemory(PM_UInt32 ppmFormat, const PM_Image* image, PM_Byte* data, PM_Size* dataSize, PM_Size maxDataSize);
 
 #endif // PICOMEDIA_IMAGE_PPM_H
