@@ -65,17 +65,17 @@ namespace picomedia
 
         inline PM_Bool PPMWriteP6(Stream& stream, const Image& image)
         {
-            return PM_ImagePPMWriteP6(stream.GetInternalHandlePtr(), image.GetImagePtr());
+            return PM_ImagePPMWriteP6(image.GetImagePtr(), stream.GetInternalHandlePtr());
         }
 
         inline PM_Bool PPMWriteP3(Stream& stream, const Image& image)
         {
-            return PM_ImagePPMWriteP3(stream.GetInternalHandlePtr(), image.GetImagePtr());
+            return PM_ImagePPMWriteP3(image.GetImagePtr(), stream.GetInternalHandlePtr());
         }
 
         inline PM_Bool PPMWrite(PPMFormat format, Stream& stream, const Image& image)
         {
-            return PM_ImagePPMWrite(format, stream.GetInternalHandlePtr(), image.GetImagePtr());
+            return PM_ImagePPMWrite(format, image.GetImagePtr(), stream.GetInternalHandlePtr());
         }
 
         inline PM_Bool PPMWriteToMemory(PPMFormat format, PM_Byte* data, PM_Size dataSize, const Image& image)
@@ -85,7 +85,7 @@ namespace picomedia
 
         inline PM_Bool PPMWriteToFile(PPMFormat format, const std::string path, const Image& image)
         {
-            return PM_ImagePPMWriteToFile(format, path.c_str(), image.GetImagePtr());
+            return PM_ImagePPMWriteToFile(format, image.GetImagePtr(), path.c_str());
         }
 
     }

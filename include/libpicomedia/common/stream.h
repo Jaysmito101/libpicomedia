@@ -214,9 +214,9 @@ void PICOMEDIA_API PM_StreamSetRequireReverse(PM_Stream* stream, PM_Bool require
         return value; \
     } \
     \
-    static PM_Size PM_StreamWrite##type(PM_Stream* stream, PM_##type value) \
+    static PM_Bool PM_StreamWrite##type(PM_Stream* stream, PM_##type value) \
     { \
-        return PM_StreamWrite(stream, (PM_Byte*)&value, sizeof(PM_##type)); \
+        return PM_StreamWrite(stream, (PM_Byte*)&value, sizeof(PM_##type)) == sizeof(PM_##type); \
     } \
     \
     static PM_##type PM_StreamPeek##type(PM_Stream* stream) \

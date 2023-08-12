@@ -71,7 +71,7 @@ PM_Bool PM__ImagePPMCheckOkForWrite(const PM_Image* image)
 
 // -----------------------------------------------------------------------------------------------
 
-PM_Bool PM_ImagePPMWriteP6(PM_Stream* stream, const PM_Image* image)
+PM_Bool PM_ImagePPMWriteP6(const PM_Image* image, PM_Stream* stream)
 {
     PM_Assert(stream != NULL);
     PM_Assert(image != NULL);
@@ -100,7 +100,7 @@ PM_Bool PM_ImagePPMWriteP6(PM_Stream* stream, const PM_Image* image)
 
 // -----------------------------------------------------------------------------------------------
 
-PM_Bool PM_ImagePPMWriteP3(PM_Stream* stream, const PM_Image* image) 
+PM_Bool PM_ImagePPMWriteP3(const PM_Image* image, PM_Stream* stream) 
 {
     PM_Assert(stream != NULL);
     PM_Assert(image != NULL);
@@ -154,18 +154,18 @@ PM_Bool PM_ImagePPMWriteP3(PM_Stream* stream, const PM_Image* image)
 
 // -----------------------------------------------------------------------------------------------
 
-PM_Bool PM_ImagePPMWrite(PM_UInt32 ppmFormat, PM_Stream* stream, const PM_Image* image)
+PM_Bool PM_ImagePPMWrite(PM_UInt32 ppmFormat, const PM_Image* image, PM_Stream* stream)
 {
     PM_Assert(stream != NULL);
     PM_Assert(image != NULL);
 
     if (ppmFormat == PICOMEDIA_PPM_FORMAT_P3)
     {
-        return PM_ImagePPMWriteP3(stream, image);
+        return PM_ImagePPMWriteP3(image, stream);
     }
     else if (ppmFormat == PICOMEDIA_PPM_FORMAT_P6)
     {
-        return PM_ImagePPMWriteP6(stream, image);
+        return PM_ImagePPMWriteP6(image, stream);
     }
     else
     {
@@ -176,7 +176,7 @@ PM_Bool PM_ImagePPMWrite(PM_UInt32 ppmFormat, PM_Stream* stream, const PM_Image*
 
 // -----------------------------------------------------------------------------------------------
 
-PM_Bool PM_ImagePPMWriteToFile(PM_UInt32 ppmFormat, const char* filePath, const PM_Image* image)
+PM_Bool PM_ImagePPMWriteToFile(PM_UInt32 ppmFormat, const PM_Image* image, const PM_Byte* filePath)
 {
     PM_Assert(filePath != NULL);
     PM_Assert(image != NULL);
@@ -188,7 +188,7 @@ PM_Bool PM_ImagePPMWriteToFile(PM_UInt32 ppmFormat, const char* filePath, const 
         return PM_FALSE;
     }
 
-    PM_Bool writeResult = PM_ImagePPMWrite(ppmFormat, &stream, image);
+    PM_Bool writeResult = PM_ImagePPMWrite(ppmFormat, image, &stream);
 
     PM_StreamDestroy(&stream);
 
@@ -211,7 +211,7 @@ PM_Bool PM_ImagePPMWriteToMemory(PM_UInt32 ppmFormat, const PM_Image* image, PM_
         return PM_FALSE;
     }
 
-    PM_Bool writeResult = PM_ImagePPMWrite(ppmFormat, &stream, image);
+    PM_Bool writeResult = PM_ImagePPMWrite(ppmFormat, image, &stream);
 
     if (writeResult && dataSize != NULL)
     {

@@ -109,7 +109,7 @@ PM_Bool PICOMEDIA_API PM_ImagePPMReadFromFile(const char* filePath, PM_Image* im
  * @param image The image to write to the file.
  * @return PM_Bool Returns PM_TRUE if the image was successfully written to the stream, PM_FALSE otherwise.
  */
-PM_Bool PICOMEDIA_API PM_ImagePPMWriteP6(PM_Stream* stream, const PM_Image* image);
+PM_Bool PICOMEDIA_API PM_ImagePPMWriteP6(const PM_Image* image, PM_Stream* stream);
 
 /**
  * @brief Writes a PPM image file in P3 format to a stream.
@@ -118,7 +118,7 @@ PM_Bool PICOMEDIA_API PM_ImagePPMWriteP6(PM_Stream* stream, const PM_Image* imag
  * @param image The image to write to the file.
  * @return PM_Bool Returns PM_TRUE if the image was successfully written to the stream, PM_FALSE otherwise.
  */
-PM_Bool PICOMEDIA_API PM_ImagePPMWriteP3(PM_Stream* stream, const PM_Image* image);
+PM_Bool PICOMEDIA_API PM_ImagePPMWriteP3(const PM_Image* image, PM_Stream* stream);
 
 /**
  * @brief Writes a PPM image file to a stream.
@@ -128,7 +128,7 @@ PM_Bool PICOMEDIA_API PM_ImagePPMWriteP3(PM_Stream* stream, const PM_Image* imag
  * @param image The image to write to the file.
  * @return PM_Bool Returns PM_TRUE if the image was successfully written to the stream, PM_FALSE otherwise.
  */
-PM_Bool PICOMEDIA_API PM_ImagePPMWrite(PM_UInt32 ppmFormat, PM_Stream* stream, const PM_Image* image);
+PM_Bool PICOMEDIA_API PM_ImagePPMWrite(PM_UInt32 ppmFormat, const PM_Image* image, PM_Stream* stream);
 
 /**
  * @brief Writes a PPM image file to a file on disk.
@@ -138,7 +138,7 @@ PM_Bool PICOMEDIA_API PM_ImagePPMWrite(PM_UInt32 ppmFormat, PM_Stream* stream, c
  * @param image The image to write to the file.
  * @return PM_Bool Returns PM_TRUE if the image was successfully written to the file, PM_FALSE otherwise.
  */
-PM_Bool PICOMEDIA_API PM_ImagePPMWriteToFile(PM_UInt32 ppmFormat, const char* filePath, const PM_Image* image);
+PM_Bool PICOMEDIA_API PM_ImagePPMWriteToFile(PM_UInt32 ppmFormat, const PM_Image* image, const PM_Byte* filePath);
 
 /**
  * @brief Writes a PPM image file to a memory buffer.

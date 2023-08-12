@@ -167,7 +167,13 @@ PM_Bool PICOMEDIA_API PM_ImageBMPReadFromMemory(PM_Byte* data, PM_Size dataSize,
 
 
 
-
+PM_Bool PICOMEDIA_API PM_ImageBMPWriteHeader(PM_Stream* stream, const PM_BMPHeader* header);
+PM_Bool PICOMEDIA_API PM_ImageBMPWriteInfoHeader(PM_Stream* stream, const PM_BMPInfoHeader* infoHeader);
+PM_Bool PICOMEDIA_API PM_ImageBMPWriteColorTable(PM_Stream* stream, const PM_BMPColorTableItem* colorTable, PM_Size colorTableSize);
+PM_Bool PICOMEDIA_API PM_ImageBMPEncode(const PM_Image* image, PM_BMPContext* context);
+PM_Bool PICOMEDIA_API PM_ImageBMPWrite(const PM_Image* image, PM_Stream* stream);
+PM_Bool PICOMEDIA_API PM_ImageBMPWriteToFile(const PM_Image* image, const PM_Byte* filePath);
+PM_Bool PICOMEDIA_API PM_ImageBMPWriteToMemory(const PM_Image* image, PM_Byte* data, PM_Size* dataSize, PM_Size maxDataSize);
 
 
 #endif // PICOMEDIA_IMAGE_BMP_H

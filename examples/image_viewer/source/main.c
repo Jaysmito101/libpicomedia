@@ -9,20 +9,24 @@ int main()
 {
     PM_LogInfo("Attempting to read image from file: %s", "test.bmp");
 
-    // PM_Image image = {0};
-    // if(!PM_ImagePPMReadFromFile("test.ppm", &image))
-    // {
-    //     PM_LogInfo("Failed to read image from file: %s \n", "test.ppm");
-    //     return 1;
-    // }
-
     PM_Image image = {0};
-    if (!PM_ImageBMPReadFromFile("test.bmp", &image))
+    if(!PM_ImagePPMReadFromFile("test.ppm", &image))
     {
-        PM_LogInfo("Failed to read image from file: %s \n", "test.bmp");
+        PM_LogInfo("Failed to read image from file: %s \n", "test.ppm");
         return 1;
     }
 
+    // PM_Image image = {0};
+    // if (!PM_ImageBMPReadFromFile("test.bmp", &image))
+    // {
+    //     PM_LogInfo("Failed to read image from file: %s \n", "test.bmp");
+    //     return 1;
+    // }
+
+
+    //PM_ImagePPMWriteToFile(PICOMEDIA_PPM_FORMAT_P6, &image, "testp6.ppm");
+    //PM_ImagePPMWriteToFile(PICOMEDIA_PPM_FORMAT_P3, &image, "testp3.ppm");
+    PM_ImageBMPWriteToFile(&image, "test24.bmp");
 
     if(!window_manager_init())
     {
@@ -30,8 +34,6 @@ int main()
         return 1;
     }
 
-    //PM_ImagePPMWriteToFile(PICOMEDIA_PPM_FORMAT_P6, "testp6.ppm", &image);
-    //PM_ImagePPMWriteToFile(PICOMEDIA_PPM_FORMAT_P3, "testp3.ppm", &image);
 
     while (!window_manager_has_closed())
     {
