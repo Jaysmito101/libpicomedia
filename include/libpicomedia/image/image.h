@@ -2,6 +2,7 @@
 #define PICOMEDIA_IMAGE_H
 
 #include "libpicomedia/image/image_base.h"
+#include "libpicomedia/image/image_transforms.h"
 
 // Individual image formats
 #include "libpicomedia/image/ppm/ppm.h"

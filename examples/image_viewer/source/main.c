@@ -26,7 +26,10 @@ int main()
 
     //PM_ImagePPMWriteToFile(PICOMEDIA_PPM_FORMAT_P6, &image, "testp6.ppm");
     //PM_ImagePPMWriteToFile(PICOMEDIA_PPM_FORMAT_P3, &image, "testp3.ppm");
+    PM_ImageTransformsChangeChannelFormat(&image, PICOMEDIA_IMAGE_CHANNEL_FORMAT_BGR);
     PM_ImageBMPWriteToFile(&image, "test24.bmp");
+    PM_ImageTransformsChangeChannelFormat(&image, PICOMEDIA_IMAGE_CHANNEL_FORMAT_RGB);
+    // PM_ImageTransformsFlipVertical(&image);
 
     if(!window_manager_init())
     {

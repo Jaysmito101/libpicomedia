@@ -44,11 +44,6 @@ namespace picomedia
             ChannelFromatBGRA       = PICOMEDIA_IMAGE_CHANNEL_FORMAT_BGRA,
             ChannelFromatGRAY       = PICOMEDIA_IMAGE_CHANNEL_FORMAT_GRAY,
             ChannelFromatGRAYA      = PICOMEDIA_IMAGE_CHANNEL_FORMAT_GRAYA,
-            ChannelFromatCMYK       = PICOMEDIA_IMAGE_CHANNEL_FORMAT_CMYK,
-            ChannelFromatYCBCR      = PICOMEDIA_IMAGE_CHANNEL_FORMAT_YCBCR,
-            ChannelFromatYCCK       = PICOMEDIA_IMAGE_CHANNEL_FORMAT_YCCK,
-            ChannelFromatYCBCRA     = PICOMEDIA_IMAGE_CHANNEL_FORMAT_YCBCRA,
-            ChannelFromatYCCKA      = PICOMEDIA_IMAGE_CHANNEL_FORMAT_YCCKA,
             ChannelFromatUnknown    = PICOMEDIA_IMAGE_CHANNEL_FORMAT_UNKNOWN
         };
 

@@ -166,11 +166,6 @@ const PM_Char* PM_ImageChannelFromatToString(PM_UInt32 channelFormat)
         case PICOMEDIA_IMAGE_CHANNEL_FORMAT_BGRA    : return "BGRA";
         case PICOMEDIA_IMAGE_CHANNEL_FORMAT_GRAY    : return "GRAY";
         case PICOMEDIA_IMAGE_CHANNEL_FORMAT_GRAYA   : return "GRAYA";
-        case PICOMEDIA_IMAGE_CHANNEL_FORMAT_CMYK    : return "CMYK";
-        case PICOMEDIA_IMAGE_CHANNEL_FORMAT_YCBCR   : return "YCBCR";
-        case PICOMEDIA_IMAGE_CHANNEL_FORMAT_YCCK    : return "YCCK";
-        case PICOMEDIA_IMAGE_CHANNEL_FORMAT_YCBCRA  : return "YCBCRA";
-        case PICOMEDIA_IMAGE_CHANNEL_FORMAT_YCCKA   : return "YCCKA";
         default                                     : return "UNKNOWN";
     }
 }

@@ -28,6 +28,7 @@ set(SOURCES
     source/common/common_utils.c
     # Image
     source/image/image_base.c
+    source/image/image_transforms.c
     # Image -> PPM
     source/image/ppm/ppm_base.c
     source/image/ppm/ppm_detect.c    
