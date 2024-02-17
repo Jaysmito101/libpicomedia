@@ -26,6 +26,7 @@ set(SOURCES
     # Common
     source/common/common_stream.c
     source/common/common_utils.c
+    source/common/checksums/common_crc32.c
     # Image
     source/image/image_base.c
     source/image/image_transforms.c

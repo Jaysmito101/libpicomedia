@@ -156,23 +156,149 @@ PM_Bool PICOMEDIA_API PM_ImageBMPDetectFroMemory(PM_Byte* data, PM_Size size);
 PM_Bool PICOMEDIA_API PM_ImageBMPDetectFromFile(const char* filename);
 
 
+/**
+ * Reads the BMP header from the given stream.
+ *
+ * @param stream The stream to read from.
+ * @param header Pointer to the BMP header structure to fill.
+ * @return True if the header was successfully read, false otherwise.
+ */
 PM_Bool PICOMEDIA_API PM_ImageBMPReadHeader(PM_Stream* stream, PM_BMPHeader* header);
+
+/**
+ * Reads the BMP info header from the given stream.
+ *
+ * @param stream The stream to read from.
+ * @param infoHeader Pointer to the BMP info header structure to fill.
+ * @return True if the info header was successfully read, false otherwise.
+ */
 PM_Bool PICOMEDIA_API PM_ImageBMPReadInfoHeader(PM_Stream* stream, PM_BMPInfoHeader* infoHeader);
+
+/**
+ * Reads the BMP color table from the given stream.
+ *
+ * @param stream The stream to read from.
+ * @param infoHeader Pointer to the BMP info header structure.
+ * @param colorTable Pointer to the BMP color table array to fill.
+ * @param colorTableCapacity Pointer to the variable storing the capacity of the color table array.
+ * @return True if the color table was successfully read, false otherwise.
+ */
 PM_Bool PICOMEDIA_API PM_ImageBMPReadColorTable(PM_Stream* stream, const PM_BMPInfoHeader* infoHeader, PM_BMPColorTableItem** colorTable, PM_Size* colorTableCapacity);
+
+/**
+ * Reads the BMP image data from the given stream.
+ *
+ * @param stream The stream to read from.
+ * @param header Pointer to the BMP header structure.
+ * @param imageData Pointer to the variable storing the image data.
+ * @param imageDataSize Pointer to the variable storing the size of the image data.
+ * @return True if the image data was successfully read, false otherwise.
+ */
 PM_Bool PICOMEDIA_API PM_ImageBMPReadImageData(PM_Stream* stream, const PM_BMPHeader* header, PM_Byte** imageData, PM_Size* imageDataSize);
+
+/**
+ * Decodes the BMP image using the provided context.
+ *
+ * @param context Pointer to the BMP decoding context.
+ * @param image Pointer to the image structure to fill.
+ * @return True if the image was successfully decoded, false otherwise.
+ */
 PM_Bool PICOMEDIA_API PM_ImageBMPDecode(const PM_BMPContext* context, PM_Image* image);
+
+/**
+ * Reads the BMP image from the given stream.
+ *
+ * @param stream The stream to read from.
+ * @param image Pointer to the image structure to fill.
+ * @return True if the image was successfully read, false otherwise.
+ */
 PM_Bool PICOMEDIA_API PM_ImageBMPRead(PM_Stream* stream, PM_Image* image);
+
+/**
+ * Reads the BMP image from the specified file.
+ *
+ * @param filePath The path to the BMP file.
+ * @param image Pointer to the image structure to fill.
+ * @return True if the image was successfully read, false otherwise.
+ */
 PM_Bool PICOMEDIA_API PM_ImageBMPReadFromFile(const PM_Byte* filePath, PM_Image* image);
+
+/**
+ * Reads the BMP image from the given memory buffer.
+ *
+ * @param data Pointer to the memory buffer containing the BMP data.
+ * @param dataSize The size of the BMP data in bytes.
+ * @param image Pointer to the image structure to fill.
+ * @return True if the image was successfully read, false otherwise.
+ */
 PM_Bool PICOMEDIA_API PM_ImageBMPReadFromMemory(PM_Byte* data, PM_Size dataSize, PM_Image* image);
 
 
 
+/**
+ * Writes the BMP header to the specified stream.
+ *
+ * @param stream The stream to write the header to.
+ * @param header The BMP header to write.
+ * @return Returns true if the header was successfully written, false otherwise.
+ */
 PM_Bool PICOMEDIA_API PM_ImageBMPWriteHeader(PM_Stream* stream, const PM_BMPHeader* header);
+
+/**
+ * Writes the BMP info header to the specified stream.
+ *
+ * @param stream The stream to write the info header to.
+ * @param infoHeader The BMP info header to write.
+ * @return Returns true if the info header was successfully written, false otherwise.
+ */
 PM_Bool PICOMEDIA_API PM_ImageBMPWriteInfoHeader(PM_Stream* stream, const PM_BMPInfoHeader* infoHeader);
+
+/**
+ * Writes the BMP color table to the specified stream.
+ *
+ * @param stream The stream to write the color table to.
+ * @param colorTable The BMP color table to write.
+ * @param colorTableSize The size of the color table.
+ * @return Returns true if the color table was successfully written, false otherwise.
+ */
 PM_Bool PICOMEDIA_API PM_ImageBMPWriteColorTable(PM_Stream* stream, const PM_BMPColorTableItem* colorTable, PM_Size colorTableSize);
+
+/**
+ * Encodes the specified image in BMP format using the provided context.
+ *
+ * @param image The image to encode.
+ * @param context The BMP encoding context.
+ * @return Returns true if the image was successfully encoded, false otherwise.
+ */
 PM_Bool PICOMEDIA_API PM_ImageBMPEncode(const PM_Image* image, PM_BMPContext* context);
+
+/**
+ * Writes the specified image to the specified stream in BMP format.
+ *
+ * @param image The image to write.
+ * @param stream The stream to write the image to.
+ * @return Returns true if the image was successfully written, false otherwise.
+ */
 PM_Bool PICOMEDIA_API PM_ImageBMPWrite(const PM_Image* image, PM_Stream* stream);
+
+/**
+ * Writes the specified image to the specified file path in BMP format.
+ *
+ * @param image The image to write.
+ * @param filePath The file path to write the image to.
+ * @return Returns true if the image was successfully written, false otherwise.
+ */
 PM_Bool PICOMEDIA_API PM_ImageBMPWriteToFile(const PM_Image* image, const PM_Byte* filePath);
+
+/**
+ * Writes the specified image to the specified memory buffer in BMP format.
+ *
+ * @param image The image to write.
+ * @param data The memory buffer to write the image to.
+ * @param dataSize The size of the memory buffer. On success, this will be updated with the actual size of the written data.
+ * @param maxDataSize The maximum size of the memory buffer.
+ * @return Returns true if the image was successfully written, false otherwise.
+ */
 PM_Bool PICOMEDIA_API PM_ImageBMPWriteToMemory(const PM_Image* image, PM_Byte* data, PM_Size* dataSize, PM_Size maxDataSize);
 
 
