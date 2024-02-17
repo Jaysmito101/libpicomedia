@@ -10,27 +10,20 @@ int main()
     PM_LogInfo("Attempting to read image from file: %s", "test.bmp");
 
     PM_Image image = {0};
-    if(!PM_ImagePPMReadFromFile("test.ppm", &image))
+
+    PM_Bool res = PM_ImagePNGDetectFromFile("test.png");
+
+    if (res)
     {
-        PM_LogInfo("Failed to read image from file: %s \n", "test.ppm");
-        return 1;
+        PM_LogInfo("PNG detected");
+    }
+    else
+    {
+        PM_LogInfo("PNG not detected");
     }
 
-    // PM_Image image = {0};
-    // if (!PM_ImageBMPReadFromFile("test.bmp", &image))
-    // {
-    //     PM_LogInfo("Failed to read image from file: %s \n", "test.bmp");
-    //     return 1;
-    // }
-
-
-    //PM_ImagePPMWriteToFile(PICOMEDIA_PPM_FORMAT_P6, &image, "testp6.ppm");
-    //PM_ImagePPMWriteToFile(PICOMEDIA_PPM_FORMAT_P3, &image, "testp3.ppm");
-    PM_ImageTransformsChangeChannelFormat(&image, PICOMEDIA_IMAGE_CHANNEL_FORMAT_BGR);
-    PM_ImageBMPWriteToFile(&image, "test24.bmp");
-    PM_ImageTransformsChangeChannelFormat(&image, PICOMEDIA_IMAGE_CHANNEL_FORMAT_RGB);
-    // PM_ImageTransformsFlipVertical(&image);
-
+    return 0;
+ 
     if(!window_manager_init())
     {
         printf("Failed to initialize window manager! \n");

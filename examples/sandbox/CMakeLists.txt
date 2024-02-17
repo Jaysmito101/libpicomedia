@@ -4,12 +4,16 @@ set(SOURCES_SANDBOX
 
 set(LIBRAIES_SANDBOX
     picomedia
+    zlib
     )
 
 set(INCLUDES_SANDBOX
     ${CMAKE_CURRENT_SOURCE_DIR}/../../include
     ./include
+    ./lib/zlib
     )
+
+add_subdirectory(./lib/zlib)
 
 add_executable(sandbox ${SOURCES_SANDBOX})
     

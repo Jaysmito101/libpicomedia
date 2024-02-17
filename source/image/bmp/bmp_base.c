@@ -155,3 +155,31 @@ void PM_ImageBMPContextDestroy(PM_BMPContext* context)
 }
 
 // -----------------------------------------------------------------------------------------------
+
+
+void PM_ImageBMPContextPrint(const PM_BMPContext* context)
+{
+    PM_Assert(context != NULL);
+
+    PM_LogInfo(
+        "\n"
+        "PM_BMPContext {\n"
+    );
+
+    PM_ImageBMPHeaderPrint(&context->header);
+    PM_ImageBMPInfoHeaderPrint(&context->infoHeader);
+
+    PM_LogInfo(
+        "    colorTable: %p\n"
+        "    colorTableCapacity: %zu\n"
+        "    imageData: %p\n"
+        "    imageDataCapacity: %zu\n"
+        "}",
+        context->colorTable,
+        context->colorTableCapacity,
+        context->imageData,
+        context->imageDataCapacity
+    );
+}
+
+// -----------------------------------------------------------------------------------------------

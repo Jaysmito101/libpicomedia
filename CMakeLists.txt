@@ -40,6 +40,9 @@ set(SOURCES
     source/image/bmp/bmp_detect.c
     source/image/bmp/bmp_read.c
     source/image/bmp/bmp_write.c
+    # Image -> PNG
+    source/image/png/png_base.c
+    source/image/png/png_detect.c
     )
 
 

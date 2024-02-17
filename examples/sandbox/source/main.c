@@ -2,7 +2,7 @@
 
 #include "libpicomedia/libpicomedia.h"
 
-void test_write_gzip(const PM_Char* filename, const PM_UInt8* deflateData, PM_Size size, PM_Size uncompressedSize) 
+void test_write_gzip(const PM_Char* filename, const PM_UInt8* deflateData, PM_Size size, PM_Size uncompressedSize, PM_UInt32 crc) 
 {
     PM_Stream stream = {0};
 
@@ -30,7 +30,7 @@ void test_write_gzip(const PM_Char* filename, const PM_UInt8* deflateData, PM_Si
 
     PM_StreamWrite(&stream, deflateData, size);
 
-    PM_StreamWriteUInt32(&stream, 0x00); // CRC32
+    PM_StreamWriteUInt32(&stream, crc);
 
     PM_StreamWriteUInt32(&stream, (PM_UInt32)uncompressedSize); // Uncompressed size
 
@@ -50,24 +50,10 @@ int main()
     };
     static const PM_Size buffer_size = sizeof(buffer);
 
-    static const PM_UInt8 dummyData[] = "Hello, World!";
-    static const PM_Size dummyDataSize = sizeof(dummyData) - 1;
+    static const PM_UInt8 dummyData[] = "Hello World!\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+    static const PM_Size dummyDataSize = sizeof(dummyData);
 
-    PM_LogInfo("Testing CRC32 checksums...");
-    PM_UInt32 bitwiseCrc32 = PM_CRC32Bitwise(dummyData, dummyDataSize, 0);
-    PM_UInt32 halfByteCrc32 = PM_CRC32HalfByte(dummyData, dummyDataSize, 0);
-    PM_UInt32 oneByteCrc32 = PM_CRC32OneByte(dummyData, dummyDataSize, 0);
-    PM_UInt32 fourByteCrc32 = PM_CRC32FourByte(dummyData, dummyDataSize, 0);
-
-    PM_LogInfo("bitwiseCrc32: 0x%X", bitwiseCrc32);
-    PM_LogInfo("halfByteCrc32: 0x%X", halfByteCrc32);
-    PM_LogInfo("oneByteCrc32: 0x%X", oneByteCrc32);
-    PM_LogInfo("fourByteCrc32: 0x%X", fourByteCrc32);
-
-
-
-
-    test_write_gzip("test.txt.gz", buffer, buffer_size, 68);
+    test_write_gzip("test.txt.gz", buffer, buffer_size, dummyDataSize, PM_CRC32(dummyData, dummyDataSize, 0));
 
 
     PM_LogInfo("Shutting down sandbox...");

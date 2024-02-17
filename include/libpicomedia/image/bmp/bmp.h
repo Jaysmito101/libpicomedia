@@ -5,7 +5,7 @@
 
 /**
  * @file bmp.h
- * @brief This file contains the definition of the BMP header structure.
+ * @brief Functions for reading and writing BMP images.
  */
  
 /**
@@ -82,6 +82,13 @@ void PICOMEDIA_API PM_ImageBMPContextInit(PM_BMPContext* context);
  * @param context Pointer to the BMP context to be destroyed.
  */
 void PICOMEDIA_API PM_ImageBMPContextDestroy(PM_BMPContext* context);
+
+/**
+ * Prints the information of a BMP image context.
+ *
+ * @param context The BMP image context to print.
+ */
+void PICOMEDIA_API PM_ImageBMPContextPrint(const PM_BMPContext* context);
 
 /**
  * Initializes a BMP color table item.

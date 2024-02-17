@@ -56,6 +56,7 @@ typedef bool     PM_Bool;
 #define PM_Memcpy(dest, src, size) memcpy(dest, src, size)
 #define PM_Memset(ptr, value, size) memset(ptr, value, size)
 #define PM_Malloc(size) malloc(size)
+#define PM_Memcmp(ptr1, ptr2, size) memcmp(ptr1, ptr2, size)
 
 #define PM_TRUE true
 #define PM_FALSE false
