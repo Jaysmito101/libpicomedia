@@ -34,7 +34,7 @@ static graphics_buffer create_graphics_buffer(int wd, int hgt)
     bmi.bmiHeader.biBitCount = 32;
     bmi.bmiHeader.biCompression = BI_RGB;
     graphics_buffer gb;
-    gb.hbm = CreateDIBSection(hdcScreen, &bmi, DIB_RGB_COLORS, (void**)(&gb.data), NULL, NULL);
+    gb.hbm = CreateDIBSection(hdcScreen, &bmi, DIB_RGB_COLORS, (void**)(&gb.data), INVALID_HANDLE_VALUE, (DWORD)0);
     ReleaseDC(NULL, hdcScreen);
     return gb;
 }
