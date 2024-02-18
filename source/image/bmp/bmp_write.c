@@ -211,6 +211,42 @@ PM_Bool PM_ImageBMPEncode(const PM_Image* image, PM_BMPContext* context)
 
 // -----------------------------------------------------------------------------------------------
 
+PM_Bool PICOMEDIA_API PM_ImageBMPWriteContext(PM_Stream* stream, const PM_BMPContext* context)
+{
+    PM_Bool writeResult = PM_TRUE;
+
+    PM_StreamSetCursorPosition(stream, 0);
+    PM_StreamSetRequireReverse(stream, PM_IsBigEndian());
+
+    if ( ! PM_ImageBMPWriteHeader(stream, &context->header) )
+    {
+        PM_LogWarning("Failed to write header! \n");
+        writeResult = PM_FALSE;
+    }
+
+    if ( ! PM_ImageBMPWriteInfoHeader(stream, &context->infoHeader) )
+    {
+        PM_LogWarning("Failed to write info header! \n");
+        writeResult = PM_FALSE;
+    }
+
+    if ( ! PM_ImageBMPWriteColorTable(stream, context->colorTable, context->colorTableCapacity) )
+    {
+        PM_LogWarning("Failed to write color table! \n");
+        writeResult = PM_FALSE;
+    }
+
+    if ( PM_StreamWrite(stream, context->imageData, context->imageDataCapacity) != context->imageDataCapacity )
+    {
+        PM_LogWarning("Failed to write image data! \n");
+        writeResult = PM_FALSE;
+    }
+
+    return writeResult;
+}
+
+// -----------------------------------------------------------------------------------------------
+
 PM_Bool PM_ImageBMPWrite(const PM_Image* image, PM_Stream* stream)
 {
     PM_Assert(stream != NULL);
@@ -225,37 +261,10 @@ PM_Bool PM_ImageBMPWrite(const PM_Image* image, PM_Stream* stream)
         return PM_FALSE;
     }
 
-    PM_Bool writeResult = PM_TRUE;
-
-    PM_StreamSetCursorPosition(stream, 0);
-    PM_StreamSetRequireReverse(stream, PM_IsBigEndian());
-
-    if ( ! PM_ImageBMPWriteHeader(stream, &context.header) )
-    {
-        PM_LogWarning("Failed to write header! \n");
-        writeResult = PM_FALSE;
-    }
-
-    if ( ! PM_ImageBMPWriteInfoHeader(stream, &context.infoHeader) )
-    {
-        PM_LogWarning("Failed to write info header! \n");
-        writeResult = PM_FALSE;
-    }
-
-    if ( ! PM_ImageBMPWriteColorTable(stream, context.colorTable, context.colorTableCapacity) )
-    {
-        PM_LogWarning("Failed to write color table! \n");
-        writeResult = PM_FALSE;
-    }
-
-    if ( PM_StreamWrite(stream, context.imageData, context.imageDataCapacity) != context.imageDataCapacity )
-    {
-        PM_LogWarning("Failed to write image data! \n");
-        writeResult = PM_FALSE;
-    }
-
+    PM_Bool writeResult = PM_ImageBMPWriteContext(stream, &context);    
 
     PM_ImageBMPContextDestroy(&context);
+
     return writeResult;
 }
 

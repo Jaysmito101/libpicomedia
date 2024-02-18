@@ -279,6 +279,8 @@ PM_Bool PICOMEDIA_API PM_ImageBMPWriteColorTable(PM_Stream* stream, const PM_BMP
  */
 PM_Bool PICOMEDIA_API PM_ImageBMPEncode(const PM_Image* image, PM_BMPContext* context);
 
+PM_Bool PICOMEDIA_API PM_ImageBMPWriteContext(PM_Stream* stream, const PM_BMPContext* context);
+
 /**
  * Writes the specified image to the specified stream in BMP format.
  *

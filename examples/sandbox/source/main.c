@@ -40,7 +40,6 @@ void test_write_gzip(const PM_Char* filename, const PM_UInt8* deflateData, PM_Si
 static PM_Bool thread_func(PM_ThreadHandle thread, void* data)
 {
     PM_LogInfo("Thread function called: %zu, %zu", PM_ThreadGetID(thread), PM_ThreadGetCurrrentID());
-    usleep(1000);
     return PM_TRUE;
 }
 
