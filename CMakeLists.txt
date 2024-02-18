@@ -43,7 +43,25 @@ set(SOURCES
     # Image -> PNG
     source/image/png/png_base.c
     source/image/png/png_detect.c
+    source/image/png/png_read.c
     )
+
+# platform specific sources
+if (WIN32)
+    list(APPEND SOURCES
+        source/common/thread/common_thread_win32.c
+        )
+elseif (UNIX)
+    list(APPEND SOURCES
+        source/common/thread/common_thread_posix.c
+        )
+elseif(APPLE)
+        list(APPEND SOURCES
+        source/common/thread/common_thread_posix.c
+        )
+else()
+    message(FATAL_ERROR "Unsupported platform")
+endif()
 
 
 # this is the "object library" target: compiles the sources only once

@@ -35,7 +35,7 @@ void PM_StreamInit(PM_Stream* stream)
     stream->isSourceOwner = false;
     // by default it works with little endian
     stream->requireReverse = PM_IsBigEndian();
-    stream->sizeForReverse = sizeof(PM_UInt64);
+    stream->sizeForReverse = sizeof(PM_UInt32);
 }
 
 // -----------------------------------------------------------------------------------------------
@@ -101,7 +101,7 @@ PM_Bool PM_StreamInitFromNetwork(PM_Stream* stream, const char* address, PM_UInt
 {
     (void)stream; (void)address; (void)flags;
 
-    PM_LogError("PM_StreamInitFromNetwork is not yet supported!");
+    PM_LogWarning("PM_StreamInitFromNetwork is not yet supported!");
 
     return false;
 }
@@ -119,7 +119,7 @@ void PM_StreamDestroy(PM_Stream* stream)
         else if (stream->sourceType == PICOMEDIA_STREAM_SOURCE_TYPE_MEMORY && stream->memorySource)
             PM_Free(stream->memorySource);
         else
-            PM_LogError("Invalid Stream Source Type %u", stream->sourceType);
+            PM_LogWarning("Invalid Stream Source Type %u", stream->sourceType);
     }
 
     PM_StreamInit(stream);
@@ -152,7 +152,7 @@ PM_Size PM_StreamRead(PM_Stream* stream, PM_Byte* buffer, PM_Size size)
     }
     else
     {
-        PM_LogError("Invalid Stream Source Type %u", stream->sourceType);
+        PM_LogWarning("Invalid Stream Source Type %u", stream->sourceType);
         return 0;
     }
 }
@@ -180,7 +180,7 @@ PM_Size PM_StreamWrite(PM_Stream* stream, const PM_Byte* buffer, PM_Size size)
     }
     else
     {
-        PM_LogError("Invalid Stream Source Type %u", stream->sourceType);
+        PM_LogWarning("Invalid Stream Source Type %u", stream->sourceType);
         return 0;
     }
 }

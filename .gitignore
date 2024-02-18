@@ -6,6 +6,7 @@ CMakeCache.txt
 build
 build2
 .vscode
+.vs
 CMakeFiles
 CMakeScripts
 Testing

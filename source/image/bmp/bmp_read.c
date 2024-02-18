@@ -15,7 +15,7 @@ PM_Bool PM_ImageBMPReadHeader(PM_Stream* stream, PM_BMPHeader* header)
 
     if(PM_StreamReadInt8(stream) != 'B' || PM_StreamReadInt8(stream) != 'M')
     {
-        PM_LogError("PM_ImageBMPReadHeader: Invalid BMP file signature.");
+        PM_LogWarning("PM_ImageBMPReadHeader: Invalid BMP file signature.");
         return PM_FALSE;
     }
 
@@ -24,19 +24,19 @@ PM_Bool PM_ImageBMPReadHeader(PM_Stream* stream, PM_BMPHeader* header)
 
     if(PM_StreamRead(stream, (PM_Byte*)&header->fileSize, sizeof(PM_UInt32)) != sizeof(PM_UInt32))
     {
-        PM_LogError("PM_ImageBMPReadHeader: Failed to read file size.");
+        PM_LogWarning("PM_ImageBMPReadHeader: Failed to read file size.");
         return PM_FALSE;
     }
 
     if(PM_StreamRead(stream, (PM_Byte*)&header->reserved, sizeof(PM_UInt32)) != sizeof(PM_UInt32))
     {
-        PM_LogError("PM_ImageBMPReadHeader: Failed to read reserved field.");
+        PM_LogWarning("PM_ImageBMPReadHeader: Failed to read reserved field.");
         return PM_FALSE;
     }
 
     if(PM_StreamRead(stream, (PM_Byte*)&header->dataOffset, sizeof(PM_UInt32)) != sizeof(PM_UInt32))
     {
-        PM_LogError("PM_ImageBMPReadHeader: Failed to read data offset.");
+        PM_LogWarning("PM_ImageBMPReadHeader: Failed to read data offset.");
         return PM_FALSE;
     }
 
@@ -58,91 +58,91 @@ PM_Bool PM_ImageBMPReadInfoHeader(PM_Stream* stream, PM_BMPInfoHeader* infoHeade
 
     if(PM_StreamRead(stream, (PM_Byte*)&infoHeader->headerSize, sizeof(PM_UInt32)) != sizeof(PM_UInt32))
     {
-        PM_LogError("PM_ImageBMPReadInfoHeader: Failed to read header size.");
+        PM_LogWarning("PM_ImageBMPReadInfoHeader: Failed to read header size.");
         return PM_FALSE;
     }
 
     if(PM_StreamRead(stream, (PM_Byte*)&infoHeader->width, sizeof(PM_Int32)) != sizeof(PM_Int32))
     {
-        PM_LogError("PM_ImageBMPReadInfoHeader: Failed to read image width.");
+        PM_LogWarning("PM_ImageBMPReadInfoHeader: Failed to read image width.");
         return PM_FALSE;
     }
 
     if(PM_StreamRead(stream, (PM_Byte*)&infoHeader->height, sizeof(PM_Int32)) != sizeof(PM_Int32))
     {
-        PM_LogError("PM_ImageBMPReadInfoHeader: Failed to read image height.");
+        PM_LogWarning("PM_ImageBMPReadInfoHeader: Failed to read image height.");
         return PM_FALSE;
     }
 
     if(PM_StreamRead(stream, (PM_Byte*)&infoHeader->planes, sizeof(PM_UInt16)) != sizeof(PM_UInt16))
     {
-        PM_LogError("PM_ImageBMPReadInfoHeader: Failed to read planes.");
+        PM_LogWarning("PM_ImageBMPReadInfoHeader: Failed to read planes.");
         return PM_FALSE;
     }
 
     if (infoHeader->planes != 1)
     {
-        PM_LogError("PM_ImageBMPReadInfoHeader: Invalid planes value(%d).", infoHeader->planes);
+        PM_LogWarning("PM_ImageBMPReadInfoHeader: Invalid planes value(%d).", infoHeader->planes);
         return PM_FALSE;
     }
 
     if(PM_StreamRead(stream, (PM_Byte*)&infoHeader->bitsPerPixel, sizeof(PM_UInt16)) != sizeof(PM_UInt16))
     {
-        PM_LogError("PM_ImageBMPReadInfoHeader: Failed to read bits per pixel.");
+        PM_LogWarning("PM_ImageBMPReadInfoHeader: Failed to read bits per pixel.");
         return PM_FALSE;
     }
 
     if (infoHeader->bitsPerPixel != 1 && infoHeader->bitsPerPixel != 4 && infoHeader->bitsPerPixel != 8 && infoHeader->bitsPerPixel != 16 && infoHeader->bitsPerPixel != 24)
     {
-        PM_LogError("PM_ImageBMPReadInfoHeader: Invalid bits per pixel value(%d).", infoHeader->bitsPerPixel);
+        PM_LogWarning("PM_ImageBMPReadInfoHeader: Invalid bits per pixel value(%d).", infoHeader->bitsPerPixel);
         return PM_FALSE;
     }
 
     if(PM_StreamRead(stream, (PM_Byte*)&infoHeader->compression, sizeof(PM_UInt32)) != sizeof(PM_UInt32))
     {
-        PM_LogError("PM_ImageBMPReadInfoHeader: Failed to read compression.");
+        PM_LogWarning("PM_ImageBMPReadInfoHeader: Failed to read compression.");
         return PM_FALSE;
     }
 
     if (infoHeader->compression != 0 && infoHeader->compression != 1 && infoHeader->compression != 2)
     {
-        PM_LogError("PM_ImageBMPReadInfoHeader: Invalid compression value(%d).", infoHeader->compression);
+        PM_LogWarning("PM_ImageBMPReadInfoHeader: Invalid compression value(%d).", infoHeader->compression);
         return PM_FALSE;
     }
 
     if(PM_StreamRead(stream, (PM_Byte*)&infoHeader->imageSize, sizeof(PM_UInt32)) != sizeof(PM_UInt32))
     {
-        PM_LogError("PM_ImageBMPReadInfoHeader: Failed to read image size.");
+        PM_LogWarning("PM_ImageBMPReadInfoHeader: Failed to read image size.");
         return PM_FALSE;
     }
 
     if (infoHeader->imageSize == 0 && infoHeader->compression != 0)
     {
-        PM_LogError("PM_ImageBMPReadInfoHeader: Invalid image size value(0 when compress is non zero).");
+        PM_LogWarning("PM_ImageBMPReadInfoHeader: Invalid image size value(0 when compress is non zero).");
         return PM_FALSE;
     }
 
     if(PM_StreamRead(stream, (PM_Byte*)&infoHeader->xPixelsPerMeter, sizeof(PM_Int32)) != sizeof(PM_Int32))
     {
-        PM_LogError("PM_ImageBMPReadInfoHeader: Failed to read horizontal resolution.");
+        PM_LogWarning("PM_ImageBMPReadInfoHeader: Failed to read horizontal resolution.");
         return PM_FALSE;
     }
 
     if(PM_StreamRead(stream, (PM_Byte*)&infoHeader->yPixelsPerMeter, sizeof(PM_Int32)) != sizeof(PM_Int32))
     {
-        PM_LogError("PM_ImageBMPReadInfoHeader: Failed to read vertical resolution.");
+        PM_LogWarning("PM_ImageBMPReadInfoHeader: Failed to read vertical resolution.");
         return PM_FALSE;
     }
 
     if(PM_StreamRead(stream, (PM_Byte*)&infoHeader->colorsUsed, sizeof(PM_UInt32)) != sizeof(PM_UInt32))
     {
-        PM_LogError("PM_ImageBMPReadInfoHeader: Failed to read colors used.");
+        PM_LogWarning("PM_ImageBMPReadInfoHeader: Failed to read colors used.");
         return PM_FALSE;
     }
 
     if(PM_StreamRead(stream, (PM_Byte*)&infoHeader->colorsImportant, sizeof(PM_UInt32)) != sizeof(PM_UInt32))
     {
-        PM_LogError("PM_ImageBMPReadInfoHeader: Failed to read important colors.");
+        PM_LogWarning("PM_ImageBMPReadInfoHeader: Failed to read important colors.");
         return PM_FALSE;
     }
 
@@ -168,7 +168,7 @@ PM_Bool PM_ImageBMPReadColorTable(PM_Stream* stream, const PM_BMPInfoHeader* inf
 
     if(infoHeader->colorsUsed > 256)
     {
-        PM_LogError("PM_ImageBMPReadColorTable: Invalid colors used value(%d).", infoHeader->colorsUsed);
+        PM_LogWarning("PM_ImageBMPReadColorTable: Invalid colors used value(%d).", infoHeader->colorsUsed);
         return PM_FALSE;
     }
 
@@ -178,7 +178,7 @@ PM_Bool PM_ImageBMPReadColorTable(PM_Stream* stream, const PM_BMPInfoHeader* inf
 
     if(*colorTable == NULL)
     {
-        PM_LogError("PM_ImageBMPReadColorTable: Failed to allocate color table.");
+        PM_LogWarning("PM_ImageBMPReadColorTable: Failed to allocate color table.");
         return PM_FALSE;
     }
 
@@ -186,7 +186,7 @@ PM_Bool PM_ImageBMPReadColorTable(PM_Stream* stream, const PM_BMPInfoHeader* inf
 
     if(PM_StreamRead(stream, (PM_Byte*)(*colorTable), sizeof(PM_BMPColorTableItem) * (*colorTableCapacity)) != sizeof(PM_BMPColorTableItem) * (*colorTableCapacity))
     {
-        PM_LogError("PM_ImageBMPReadColorTable: Failed to read color table.");
+        PM_LogWarning("PM_ImageBMPReadColorTable: Failed to read color table.");
         return PM_FALSE;
     }
 
@@ -211,7 +211,7 @@ PM_Bool PM_ImageBMPReadImageData(PM_Stream* stream, const PM_BMPHeader* header, 
 
     if (*imageData == NULL)
     {
-        PM_LogError("PM_ImageBMPReadImageData: Failed to allocate image data.");
+        PM_LogWarning("PM_ImageBMPReadImageData: Failed to allocate image data.");
         return PM_FALSE;
     }
 
@@ -219,7 +219,7 @@ PM_Bool PM_ImageBMPReadImageData(PM_Stream* stream, const PM_BMPHeader* header, 
 
     if(PM_StreamRead(stream, *imageData, *imageDataSize) != *imageDataSize)
     {
-        PM_LogError("PM_ImageBMPReadImageData: Failed to read image data.");
+        PM_LogWarning("PM_ImageBMPReadImageData: Failed to read image data.");
         return PM_FALSE;
     }
 
@@ -271,7 +271,7 @@ PM_Bool PM_ImageBMPDecode(const PM_BMPContext* context, PM_Image* image)
     {
         if (context->infoHeader.compression != 0)
         {
-            PM_LogError("PM_ImageBMPDecode: Unsupported compression type(%d) for bitsPerPixel(%d).", context->infoHeader.compression, context->infoHeader.bitsPerPixel);
+            PM_LogWarning("PM_ImageBMPDecode: Unsupported compression type(%d) for bitsPerPixel(%d).", context->infoHeader.compression, context->infoHeader.bitsPerPixel);
             return PM_FALSE;
         }
 
@@ -294,7 +294,7 @@ PM_Bool PM_ImageBMPDecode(const PM_BMPContext* context, PM_Image* image)
     // NOTE: 16 bits per pixel is not supported yet
     else
     {
-        PM_LogError("PM_ImageBMPDecode: Unsupported bits per pixel value(%d).", context->infoHeader.bitsPerPixel);
+        PM_LogWarning("PM_ImageBMPDecode: Unsupported bits per pixel value(%d).", context->infoHeader.bitsPerPixel);
         return PM_FALSE;
     }
 
@@ -310,28 +310,28 @@ PM_Bool PM_ImageBMPRead(PM_Stream* stream, PM_Image* image)
 
     if ( ! PM_ImageBMPReadHeader(stream, &bmpContext.header) )
     {
-        PM_LogError("PM_ImageBMPRead: Failed to read header.");
+        PM_LogWarning("PM_ImageBMPRead: Failed to read header.");
         PM_ImageBMPContextDestroy(&bmpContext);
         return PM_FALSE;
     }
 
     if ( ! PM_ImageBMPReadInfoHeader(stream, &bmpContext.infoHeader) )
     {
-        PM_LogError("PM_ImageBMPRead: Failed to read info header.");
+        PM_LogWarning("PM_ImageBMPRead: Failed to read info header.");
         PM_ImageBMPContextDestroy(&bmpContext);
         return PM_FALSE;
     }
 
     if ( ! PM_ImageBMPReadColorTable(stream, &bmpContext.infoHeader, &bmpContext.colorTable, &bmpContext.colorTableCapacity) )
     {
-        PM_LogError("PM_ImageBMPRead: Failed to read color table.");
+        PM_LogWarning("PM_ImageBMPRead: Failed to read color table.");
         PM_ImageBMPContextDestroy(&bmpContext);
         return PM_FALSE;
     }
 
     if ( ! PM_ImageBMPReadImageData(stream, &bmpContext.header, &bmpContext.imageData, &bmpContext.imageDataCapacity) )
     {
-        PM_LogError("PM_ImageBMPRead: Failed to read image data.");
+        PM_LogWarning("PM_ImageBMPRead: Failed to read image data.");
         PM_ImageBMPContextDestroy(&bmpContext);
         return PM_FALSE;
     }
@@ -346,14 +346,14 @@ PM_Bool PM_ImageBMPRead(PM_Stream* stream, PM_Image* image)
 
     if (! PM_ImageAllocate(image, image->width, image->height, image->channelFormat, image->dataType, image->numChannels))
     {
-        PM_LogError("PM_ImageBMPRead: Failed to allocate image.");
+        PM_LogWarning("PM_ImageBMPRead: Failed to allocate image.");
         PM_ImageBMPContextDestroy(&bmpContext);
         return PM_FALSE;
     }
 
     if ( ! PM_ImageBMPDecode(&bmpContext, image) )
     {
-        PM_LogError("PM_ImageBMPRead: Failed to decode image.");
+        PM_LogWarning("PM_ImageBMPRead: Failed to decode image.");
         PM_ImageBMPContextDestroy(&bmpContext);
         PM_ImageDestroy(image);
         return PM_FALSE;
@@ -375,7 +375,7 @@ PM_Bool PM_ImageBMPReadFromFile(const PM_Byte* filePath, PM_Image* image)
     PM_Stream stream = {0};
     if ( ! PM_StreamInitFromFile(&stream, filePath, PICOMEDIA_STREAM_FLAG_READ) ) 
     {
-        PM_LogError("Failed to initialize stream from file! \n");
+        PM_LogWarning("Failed to initialize stream from file! \n");
         return PM_FALSE;
     }
 
@@ -397,7 +397,7 @@ PM_Bool PM_ImageBMPReadFromMemory(PM_Byte* data, PM_Size dataSize, PM_Image* ima
     PM_Stream stream = {0};
     if ( ! PM_StreamInitFromMemory(&stream, data, dataSize, PICOMEDIA_STREAM_FLAG_READ, false) ) 
     {
-        PM_LogError("Failed to initialize stream from memory! \n");
+        PM_LogWarning("Failed to initialize stream from memory! \n");
         return PM_FALSE;
     }
 

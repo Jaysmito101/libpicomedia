@@ -22,7 +22,7 @@ PM_Bool PM_ImageBMPDetectFromMemory(PM_Byte* data, PM_Size dataSize)
     PM_Stream stream = {0};
     if ( ! PM_StreamInitFromMemory(&stream, data, dataSize, PICOMEDIA_STREAM_FLAG_READ, PM_FALSE) )
     {
-        PM_LogError("PM_ImageBMPDetectFromMemory: PM_StreamInitFromMemory failed.");
+        PM_LogWarning("PM_ImageBMPDetectFromMemory: PM_StreamInitFromMemory failed.");
         return PM_FALSE;
     }
     PM_Bool detectionResult = PM_ImageBMPDetect(&stream);
@@ -39,7 +39,7 @@ PM_Bool PM_ImageBMPDetectFromFile(const char* filePath)
     PM_Stream stream = {0};
     if ( ! PM_StreamInitFromFile(&stream, filePath, PICOMEDIA_STREAM_FLAG_READ) )
     {
-        PM_LogError("PM_ImageBMPDetectFromFile: PM_StreamInitFromFile failed.");
+        PM_LogWarning("PM_ImageBMPDetectFromFile: PM_StreamInitFromFile failed.");
         return PM_FALSE;
     }
     PM_Bool detectionResult = PM_ImageBMPDetect(&stream);

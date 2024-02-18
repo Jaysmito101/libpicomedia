@@ -344,5 +344,43 @@ PM_Bool PICOMEDIA_API PM_ImagePNGDetectFromFile(const char* filePath);
 // Reading Functions
 
 
+/**
+ * @brief Reads a PNG image from a stream.
+ *
+ * This function reads a PNG image from the specified stream and stores it in the provided PM_Image structure.
+ *
+ * @param stream The stream from which to read the PNG image.
+ * @param image The PM_Image structure to store the read image.
+ * @return PM_Bool Returns PM_TRUE if the PNG image was successfully read, PM_FALSE otherwise.
+ */
+PM_Bool PICOMEDIA_API PM_ImagePNGRead(PM_Stream* stream, PM_Image* image);
+
+/**
+ * @brief Reads a PNG image from a file.
+ *
+ * This function reads a PNG image from the specified file path and stores it in the provided PM_Image structure.
+ *
+ * @param filePath The file path of the PNG image to read.
+ * @param image The PM_Image structure to store the read image.
+ * @return PM_Bool Returns PM_TRUE if the PNG image was successfully read, PM_FALSE otherwise.
+ */
+PM_Bool PICOMEDIA_API PM_ImagePNGReadFromFile(const PM_Byte* filePath, PM_Image* image);
+
+/**
+ * @brief Reads a PNG image from memory.
+ *
+ * This function reads a PNG image from the specified memory buffer and stores it in the provided PM_Image structure.
+ *
+ * @param data The memory buffer containing the PNG image data.
+ * @param dataSize The size of the PNG image data in bytes.
+ * @param image The PM_Image structure to store the read image.
+ * @return PM_Bool Returns PM_TRUE if the PNG image was successfully read, PM_FALSE otherwise.
+ */
+PM_Bool PICOMEDIA_API PM_ImagePNGReadFromMemory(PM_Byte* data, PM_Size dataSize, PM_Image* image);
+
+
+
+
+
 
 #endif // PICOMEDIA_IMAGE_PNG_H

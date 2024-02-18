@@ -71,6 +71,7 @@ typedef bool     PM_Bool;
 
 // temporary
 #define PM_Log(level, ...)  printf(level ":\t"), printf(__VA_ARGS__), printf("\n")
+#define PM_LogWarning(...)  PM_Log("Warning", __VA_ARGS__)
 #define PM_LogError(...)    PM_Log("Error", __VA_ARGS__), PM_DebugBreak()
 #define PM_LogInfo(...)     PM_Log("Info", __VA_ARGS__)
 

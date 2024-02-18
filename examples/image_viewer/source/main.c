@@ -7,20 +7,20 @@
 
 int main()
 {
-    PM_LogInfo("Attempting to read image from file: %s", "test.bmp");
+    PM_LogInfo("Attempting to read image from file: %s", "test.png");
 
     PM_Image image = {0};
 
-    PM_Bool res = PM_ImagePNGDetectFromFile("test.png");
+    if(!PM_ImagePNGDetectFromFile("test.png")) {
+        printf("Failed to detect image type! \n");
+        return 1;
+    }
 
-    if (res)
-    {
-        PM_LogInfo("PNG detected");
+    if(!PM_ImagePNGReadFromFile("test.png", &image)) {
+        printf("Failed to read image from file! \n");
+        return 1;
     }
-    else
-    {
-        PM_LogInfo("PNG not detected");
-    }
+
 
     return 0;
  

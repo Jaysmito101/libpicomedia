@@ -37,6 +37,12 @@ void test_write_gzip(const PM_Char* filename, const PM_UInt8* deflateData, PM_Si
     PM_StreamDestroy(&stream);
 }
 
+static PM_Bool thread_func(PM_ThreadHandle thread, void* data)
+{
+    PM_LogInfo("Thread function called: %zu, %zu", PM_ThreadGetID(thread), PM_ThreadGetCurrrentID());
+    _sleep(1000);
+    return PM_TRUE;
+}
 
 int main()
 {
@@ -53,9 +59,21 @@ int main()
     static const PM_UInt8 dummyData[] = "Hello World!\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
     static const PM_Size dummyDataSize = sizeof(dummyData);
 
-    test_write_gzip("test.txt.gz", buffer, buffer_size, dummyDataSize, PM_CRC32(dummyData, dummyDataSize, 0));
+    // test_write_gzip("test.txt.gz", buffer, buffer_size, dummyDataSize, PM_CRC32(dummyData, dummyDataSize, 0));
 
+    PM_LogInfo("Current thread ID: %zu", PM_ThreadGetCurrrentID());
 
+    PM_ThreadHandle threads[64];
+    for (int i = 0 ; i < 64 ; i++ ) {
+        threads[i] = PM_ThreadCreate(thread_func, NULL);
+        PM_ThreadStart(threads[i]);
+    }
+
+    for (int i = 0 ; i < 64 ; i++ ) {
+        PM_ThreadDestroy(threads[i]);
+    }
+
+    
     PM_LogInfo("Shutting down sandbox...");
     return 0;
 }
