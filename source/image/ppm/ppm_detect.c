@@ -6,7 +6,7 @@ PM_UInt32 PM_ImagePPMDetect(PM_Stream* stream)
 {
     PM_Assert(stream != NULL);
 
-    PM_Int8 magicNumber[2] = {0};
+    PM_Byte magicNumber[2] = {0};
     PM_StreamRead(stream, magicNumber, 2);
     if ( (magicNumber[0] == 'P') && (magicNumber[1] == '3'))
     {

@@ -207,10 +207,10 @@ PM_Bool PM_ImagePNGRead(PM_Stream* stream, PM_Image* image)
     PM_StreamSetCursorPosition(stream, 0);
 
     // Verify PNG magic
-    static const PM_Byte pngMagic[] = { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A };
-    PM_Byte signature[sizeof(pngMagic)] = { 0 };
+    static const PM_UInt8 pngMagic[] = { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A };
+    PM_UInt8 signature[sizeof(pngMagic)] = { 0 };
 
-    if ( PM_StreamRead(stream, signature, sizeof(pngMagic)) != sizeof(pngMagic) )
+    if ( PM_StreamRead(stream, (PM_Byte*)signature, sizeof(pngMagic)) != sizeof(pngMagic) )
 	{
 		PM_LogWarning("PM_ImagePNGRead: Failed to read PNG signature.");
 		PM_ImagePNGContextDestroy(&pngContext);

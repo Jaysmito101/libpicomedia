@@ -38,7 +38,7 @@ typedef PM_UInt64 PM_ThreadID;
 
 
 /**
- * @brief Creates a new thread and associates it with the specified function.
+ * @brief Creates a new thread and associates it with the specified function. After creation, the thread is immediately started.
  * 
  * @param func The function to be executed by the thread.
  * @param data A pointer to the data that will be passed to the thread function.
@@ -60,14 +60,6 @@ void PICOMEDIA_API PM_ThreadDestroy(PM_Thread* thread);
  * @return The ID of the thread.
  */
 PM_ThreadID PICOMEDIA_API PM_ThreadGetID(PM_Thread* thread);
-
-/**
- * @brief Starts the execution of the specified thread.
- * 
- * @param thread A pointer to the PM_Thread object.
- * @return PM_TRUE if the thread starts successfully, PM_FALSE otherwise.
- */
-PM_Bool PICOMEDIA_API PM_ThreadStart(PM_Thread* thread);
 
 /**
  * @brief Waits for the specified thread to finish its execution.

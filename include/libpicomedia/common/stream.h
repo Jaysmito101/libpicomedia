@@ -8,9 +8,9 @@
 #define PICOMEDIA_STREAM_SOURCE_TYPE_NETWORK     0x00000004 // for future use
 #define PICOMEDIA_STREAM_SOURCE_TYPE_UNKNOWN     0x00000008
 
-#define PICOMEDIA_STREAM_FLAG_READ               0b00000001
-#define PICOMEDIA_STREAM_FLAG_WRITE              0b00000010
-#define PICOMEDIA_STREAM_FLAG_APPEND             0b00000100
+#define PICOMEDIA_STREAM_FLAG_READ               0x00000001
+#define PICOMEDIA_STREAM_FLAG_WRITE              0x00000002
+#define PICOMEDIA_STREAM_FLAG_APPEND             0x00000004
 
 
 /**
@@ -24,7 +24,7 @@ struct PM_Stream
     FILE* fileSource;       /**< Pointer to the file source, if applicable. */
     PM_Byte* memorySource;  /**< Pointer to the memory source, if applicable. */
     PM_Size sourceSize;     /**< Size of the source data, in bytes. */
-    PM_Size cursorPosition; /**< Current position of the stream's cursor. */
+    PM_Int64 cursorPosition;/**< Current position of the stream's cursor. */
     PM_UInt32 sourceType;   /**< Type of the stream's source, such as file or memory. */
     PM_UInt8 flags;         /**< Flags indicating the stream's read/write/append permissions. */
     PM_Bool isInitialized;  /**< Flag indicating whether the stream has been initialized. */
@@ -226,6 +226,7 @@ void PICOMEDIA_API PM_StreamSetRequireReverse(PM_Stream* stream, PM_Bool require
         return value; \
     }
 
+
 PICOMEDIA_STREAM_ADD_TYPE_FUNCTIONS_SOURCE(Int8)
 PICOMEDIA_STREAM_ADD_TYPE_FUNCTIONS_SOURCE(Int16)
 PICOMEDIA_STREAM_ADD_TYPE_FUNCTIONS_SOURCE(Int32)
@@ -237,6 +238,7 @@ PICOMEDIA_STREAM_ADD_TYPE_FUNCTIONS_SOURCE(UInt64)
 PICOMEDIA_STREAM_ADD_TYPE_FUNCTIONS_SOURCE(Float32)
 PICOMEDIA_STREAM_ADD_TYPE_FUNCTIONS_SOURCE(Float64)
 PICOMEDIA_STREAM_ADD_TYPE_FUNCTIONS_SOURCE(Byte)
+
 
 
 #endif // PICOMEDIA_COMMON_STREAM_H

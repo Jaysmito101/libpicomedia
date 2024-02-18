@@ -45,6 +45,25 @@ typedef bool     PM_Bool;
     #error "Unsupported platform"
 #endif
 
+// Compiler Detection
+#if defined(_MSC_VER)
+    // Microsoft Visual C++
+    #define PM_COMPILER_MSVC
+#elif defined(__clang__)
+    // Clang
+    #define PM_COMPILER_CLANG
+#elif defined(__GNUC__)
+    // GCC
+    #define PM_COMPILER_GCC
+#else
+    #define PM_COMPILER_UNKNOWN
+#endif
+
+#ifdef PM_COMPILER_MSVC
+    #pragma warning(disable: 4201) // nonstandard extension used: nameless struct/union
+#elif defined(PM_COMPILER_CLANG) || defined(PM_COMPILER_GCC)
+    #pragma GCC diagnostic ignored "-Wunused-function"
+#endif
 
 
 #define PM_Malloc(size) malloc(size)
@@ -57,6 +76,9 @@ typedef bool     PM_Bool;
 #define PM_Memset(ptr, value, size) memset(ptr, value, size)
 #define PM_Malloc(size) malloc(size)
 #define PM_Memcmp(ptr1, ptr2, size) memcmp(ptr1, ptr2, size)
+
+#define PM_Max(a, b) ((a) > (b) ? (a) : (b))
+#define PM_Min(a, b)  ((a) < (b) ? (a) : (b))
 
 #define PM_TRUE true
 #define PM_FALSE false

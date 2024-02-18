@@ -175,7 +175,7 @@ void PM_ImageBMPContextPrint(const PM_BMPContext* context)
         "    imageData: %p\n"
         "    imageDataCapacity: %zu\n"
         "}",
-        context->colorTable,
+        (void*)context->colorTable,
         context->colorTableCapacity,
         context->imageData,
         context->imageDataCapacity

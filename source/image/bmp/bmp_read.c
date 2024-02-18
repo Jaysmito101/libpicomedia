@@ -259,9 +259,9 @@ PM_Bool PM_ImageBMPDecode(const PM_BMPContext* context, PM_Image* image)
                     case 8: bit = scanLine[x]; break;
                 }
 
-                dst[0] = context->colorTable[bit].red;
-                dst[1] = context->colorTable[bit].green;
-                dst[2] = context->colorTable[bit].blue;
+                dst[0] = context->colorTable[(PM_UInt16)bit].red;
+                dst[1] = context->colorTable[(PM_UInt16)bit].green;
+                dst[2] = context->colorTable[(PM_UInt16)bit].blue;
 
                 dst += image->bitsPerChannel / 8 * 3;
             }

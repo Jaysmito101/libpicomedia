@@ -194,8 +194,8 @@ PM_Size PM_StreamPeek(PM_Stream* stream, PM_Byte* buffer, PM_Size size)
     PM_Size bytesRead = PM_StreamRead(stream, buffer, size);
     
     stream->cursorPosition -= bytesRead;
-    if (stream->cursorPosition < 0)
-        stream->cursorPosition = 0;
+    if (stream->cursorPosition <= 0u)
+        stream->cursorPosition = 0u;
 
     PM_StreamSetCursorPosition(stream, stream->cursorPosition);    
 

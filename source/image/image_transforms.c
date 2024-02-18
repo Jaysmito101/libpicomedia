@@ -89,13 +89,13 @@ PM_Bool PM_ImageTransformsChangeChannelFormat(PM_Image* image, PM_UInt32 newChan
             {
                 PM__ImageTransformsRGBAToBGRA(pixelSrc, pixelDst, channelSize);
             }
-            else if (image->channelFormat == PICOMEDIA_IMAGE_CHANNEL_FORMAT_RGB && newImage.channelFormat == PICOMEDIA_IMAGE_CHANNEL_FORMAT_RGBA
-            || image->channelFormat == PICOMEDIA_IMAGE_CHANNEL_FORMAT_BGR && newImage.channelFormat == PICOMEDIA_IMAGE_CHANNEL_FORMAT_BGRA)
+            else if ((image->channelFormat == PICOMEDIA_IMAGE_CHANNEL_FORMAT_RGB && newImage.channelFormat == PICOMEDIA_IMAGE_CHANNEL_FORMAT_RGBA)
+            || (image->channelFormat == PICOMEDIA_IMAGE_CHANNEL_FORMAT_BGR && newImage.channelFormat == PICOMEDIA_IMAGE_CHANNEL_FORMAT_BGRA))
             {
                 PM__ImageTransformsRGBToRGBA(pixelSrc, pixelDst, channelSize);
             }
-            else if (image->channelFormat == PICOMEDIA_IMAGE_CHANNEL_FORMAT_RGBA && newImage.channelFormat == PICOMEDIA_IMAGE_CHANNEL_FORMAT_RGB
-            || image->channelFormat == PICOMEDIA_IMAGE_CHANNEL_FORMAT_BGRA && newImage.channelFormat == PICOMEDIA_IMAGE_CHANNEL_FORMAT_BGR)
+            else if ((image->channelFormat == PICOMEDIA_IMAGE_CHANNEL_FORMAT_RGBA && newImage.channelFormat == PICOMEDIA_IMAGE_CHANNEL_FORMAT_RGB)
+            || (image->channelFormat == PICOMEDIA_IMAGE_CHANNEL_FORMAT_BGRA && newImage.channelFormat == PICOMEDIA_IMAGE_CHANNEL_FORMAT_BGR))
             {
                 PM_Memcpy(pixelDst, pixelSrc, channelSize * 3);
             }

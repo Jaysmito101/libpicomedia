@@ -6,10 +6,10 @@ PM_Bool PM_ImagePNGDetect(PM_Stream* stream)
 {
     PM_Assert(stream != NULL);
 
-    static const PM_Byte pngMagic[] = { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A };
-    static PM_Byte magicNumber[sizeof(pngMagic)] = {0};
+    static const PM_UInt8 pngMagic[] = { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A };
+    static PM_UInt8 magicNumber[sizeof(pngMagic)] = {0};
 
-    PM_StreamRead(stream, magicNumber, sizeof(magicNumber));
+    PM_StreamRead(stream, (PM_Byte*)magicNumber, sizeof(magicNumber));
     
     return ( PM_Memcmp(magicNumber, pngMagic, sizeof(magicNumber)) == 0 );
 }

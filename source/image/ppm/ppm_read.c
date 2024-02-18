@@ -64,8 +64,8 @@ static PM_Bool PM__ImagePPMReadHeader(PM_Stream* stream, PM_Image* image, PM_UIn
     
     // Read max color value
     *maxColorValue = (PM_UInt32)PM_ReadASCIIIntegerFromStream(stream);
-    *maxColorValue = max(*maxColorValue, 0);
-    *maxColorValue = min(*maxColorValue, 65536);
+    *maxColorValue = PM_Max(*maxColorValue, 0);
+    *maxColorValue = PM_Min(*maxColorValue, 65536);
 
     // PPM only supports 8-bit and 16-bit color values
     if ( *maxColorValue > 255 )

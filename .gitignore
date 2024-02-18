@@ -5,6 +5,7 @@ CMakeLists.txt.user
 CMakeCache.txt
 build
 build2
+build_wsl
 .vscode
 .vs
 CMakeFiles

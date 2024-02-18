@@ -256,7 +256,7 @@ PM_Bool PM_ImageBMPWrite(const PM_Image* image, PM_Stream* stream)
 
 
     PM_ImageBMPContextDestroy(&context);
-    return PM_TRUE;
+    return writeResult;
 }
 
 // -----------------------------------------------------------------------------------------------
